@@ -1,41 +1,62 @@
-const { app, BrowserWindow } = require('electron')
+const electron = require("electron")
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
+const path = require('path')
+const url = require('url')
 
-let win;
+let mainWindow;
+
+// Hot-reload
+const args = process.argv.slice(1);
+serve = args.some(val => val === '--serve');
 
 function createWindow () {
-  // Create the browser window.
-  win = new BrowserWindow({
-    width: 600, 
-    height: 600
-  })
+  const electronScreen = electron.screen;
+  const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
+  mainWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: Math.round(size.width/2),
+    height: size.height,
+    show: false,
+    icon: path.join(__dirname, 'icon.png')
+  });
 
-  win.loadFile(`./dist/simplear-creator/index.html`)
+  if (serve) {
+    require('electron-reload')(__dirname, {
+      electron: require(path.join(__dirname, 'node_modules', 'electron'))
+    });
+    mainWindow.loadURL('http://localhost:4200');
+  } else {
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'dist', 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
 
-  //// uncomment below to open the DevTools.
-  // win.webContents.openDevTools()
+  //mainWindow.setMenu(null);
 
-  // Event when the window is closed.
-  win.on('closed', function () {
-    win = null
-  })
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 }
 
-// Create window on electron intialization
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
-// Quit when all windows are closed.
 app.on('window-all-closed', function () {
-
-  // On macOS specific close process
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
-})
+});
 
 app.on('activate', function () {
-  // macOS specific close process
-  if (win === null) {
-    createWindow()
+  if (mainWindow === null) {
+    createWindow();
   }
-})
+});
