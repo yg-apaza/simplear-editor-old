@@ -1,27 +1,17 @@
-# SimplearCreator
+# SimpleAR [CREATOR]
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+SimpleAR Creator is an Augmented Reality Authoring Tool using [Google Blockly](https://developers.google.com/blockly/). Through visual programming, you can create augmented reality apps.
 
-## Development server
+![Screenshot of Simple AR](screenshot.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installing / Getting started
 
-## Code scaffolding
+```shell
+npm start
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This will start a server on localhost:4200 and open the desktop app on development mode.
 
-## Build
+## Licensing
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The code in this project is licensed under [MIT License](LICENSE.md).
