@@ -18,7 +18,7 @@
     "e2e": "ng e2e",
     "ng:serve": "ng serve",
     "electron:serve": "wait-on http-get://localhost:4200/ && electron . --serve",
-    "electron:build": "ng build --aot --prod --progress false --output-path=dist/ --base-href \"./\""
+    "electron:build": "ng build --aot --prod --progress false --output-path=dist/ --base-href \"./\" && cp dist/index.html dist/404.html"
   },
   "private": true,
   "dependencies": {
