@@ -1,6 +1,6 @@
 {
   "name": "simplear-creator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Augmented Reality Authoring Tool",
   "homepage": "https://github.com/yg-apaza/simplear-creator",
   "author": {
@@ -31,7 +31,12 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
+    "@fortawesome/fontawesome-free": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^2.2.0",
+    "angularfire2": "^5.0.0-rc.11",
+    "bootstrap": "^4.1.2",
     "core-js": "^2.5.4",
+    "firebase": "^5.2.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

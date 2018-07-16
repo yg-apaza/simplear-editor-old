@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+.page-header {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.vertical-container {
+    height: 300px;
+}
+
+.dashed-card {
+    border-style: dashed;
+    border-color: var(--primary);
+    border-width: 4px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+label>input {
+    /* HIDE RADIO */
+    visibility: hidden;
+    /* Makes input not-clickable */
+    position: absolute;
+    /* Remove input from document flow */
+    display: none;
+}
+
+label>input+img {
+    /* IMAGE STYLES */
+    cursor: pointer;
+    border: 8px solid transparent;
+}
+
+label>input:checked+img {
+    /* (RADIO CHECKED) IMAGE STYLES */
+    border: 8px solid var(--success);
+}
+
+.bottom-margin {
+    margin-bottom: 1rem;
+}
+
+.right-margin {
+    margin-right: 1rem;
+}
