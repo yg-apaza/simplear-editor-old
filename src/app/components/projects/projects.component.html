@@ -1,3 +1,78 @@
-<p>
-  projects works!
-</p>
+<h1 class="page-header">My projects</h1>
+<p>Check all your existing projects or create a new one</p>
+
+<div *appLoading="loadingProjects">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+      <div class="card w-100 dashed-card text-center text-primary bottom-margin clickable" (click)="openModal(createProjectModal)">
+        <div class="card-body">
+          <p class="card-text">
+            <i class="fa fa-5x fa-plus"></i>
+          </p>
+          <h5 class="card-text">CREATE NEW</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch" *ngFor="let p of projects | keyvalue; let i = index">
+      <div class="card w-100 bottom-margin">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.value.title }}</h5>
+          <p class="card-text">{{ p.value.description }}</p>
+          <button class="btn btn-outline-primary" [routerLink]="['/edit', p.key]">
+            <i class="fa fa-pencil" aria-hidden="true"></i> EDIT
+          </button>
+          <button class="btn btn-outline-danger" (click)="removeProject(p.key, i)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createProjectModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">New project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="createProject()" #createProjectForm="ngForm">
+      <div class="form-group">
+        <label for="inputTitle">Title</label>
+        <input type="email" class="form-control" id="inputTitle" placeholder="Title" required [(ngModel)]="createProjectModal.title" name="title">
+      </div>
+      <div class="form-group">
+        <label for="inputDescription">Description</label>
+        <textarea class="form-control" id="inputDescription" rows="3" required [(ngModel)]="createProjectModal.description" name="description"></textarea>
+      </div>
+      <p>{{createProjectModal.title + createProjectModal.description}}</p>
+      <legend class="col-form-label">Marker type</legend>
+      <!-- <div class="form-row">
+        <div class="form-group col-12 col-md-6 col-sm-6">
+          <div class="form-check">
+            <label class="form-check-label" for="radioARToolKit">
+              Fiducial marker
+              <input class="form-check-input" type="radio" id="radioARToolKit" value="artoolkit" [(ngModel)]="createProjectModal.framework"
+                name="framework">
+              <img src="assets/fiducial_marker.jpg" class="img-fluid">
+            </label>
+          </div>
+        </div>
+        <div class="form-group col-12 col-md-6 col-sm-6">
+          <div class="form-check">
+            <label class="form-check-label" for="radioVuforia">
+              Natural marker
+              <input class="form-check-input" type="radio" id="radioVuforia" value="vuforia" [(ngModel)]="createProjectModal.framework" name="framework">
+              <img src="assets/natural_marker.jpg" class="img-fluid">
+            </label>
+          </div>
+        </div>
+      </div> -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success">CREATE</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
