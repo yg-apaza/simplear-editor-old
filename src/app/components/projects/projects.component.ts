@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { CreateProjectModal } from '../../interfaces/create-project-modal';
+import { Project } from '../../interfaces/project';
 
 @Component({
   selector: 'app-projects',
@@ -13,7 +13,7 @@ export class ProjectsComponent implements OnInit {
 
   loadingProjects: boolean;
   projects: any;
-  createProjectModal: CreateProjectModal;
+  newProject: Project;
   createProjectModalReference: NgbModalRef;
 
   constructor(
@@ -24,7 +24,7 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.loadProjects();
-    this.createProjectModal = {
+    this.newProject = {
       title: "",
       description: "",
       framework: "artoolkit",
@@ -46,9 +46,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   createProject() {
-    console.log(this.createProjectModal);
+    console.log(this.newProject);
     const pushId = this.db.createPushId();
-    const item = { ...this.createProjectModal, id: pushId };
+    const item = { ...this.newProject, id: pushId };
     this.db.list('projects').set(item.id, item);
     
     console.log("Created: " + item.id);

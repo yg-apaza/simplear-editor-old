@@ -1,22 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a routerLink="/" routerLinkActive="active" class="navbar-brand">ARCreator</a>
-  <ul class="navbar-nav ml-auto">
-    <li class="nav-item dropdown">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <a routerLink="/" routerLinkActive="active" class="navbar-brand">
+    <img src="assets/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    SimpleAR
+  </a>
+  <!-- <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown"> -->
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" id="userActions" ngbDropdownToggle>Username</button>
         <div ngbDropdownMenu aria-labelledby="userActions">
           <button class="dropdown-item">
-            <i class="fa fa-fw fa-user"></i>Profile
+            <i class="fas fa-user"></i> Profile
           </button>
           <button class="dropdown-item">
-            <i class="fa fa-fw fa-sign-out"></i>Logout
+            <i class="fas fa-sign-out-alt"></i> Logout
           </button>
         </div>
-      </div>
+      </div><!-- 
     </li>
-  </ul>
+  </ul> -->
 </nav>
 
-<div class="container">
+<div class="custom-container">
   <router-outlet></router-outlet>
 </div>

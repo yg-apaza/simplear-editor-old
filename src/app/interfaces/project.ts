@@ -1,4 +1,4 @@
-export interface CreateProjectModal {
+export interface Project {
     title: string,
     description: string,
     framework: string,
