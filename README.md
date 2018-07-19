@@ -1,4 +1,4 @@
-# SimpleAR [CREATOR]
+# SimpleAR - CREATOR
 
 SimpleAR Creator is an Augmented Reality Authoring Tool using [Google Blockly](https://developers.google.com/blockly/). Through visual programming, you can create augmented reality apps.
 
@@ -42,6 +42,16 @@ Finally, go to Database > Rules, and enable anonymous access by copying the foll
     ".write": true
   }
 }
+```
+
+## Developing
+
+After following the steps from [Getting started](#installing--getting-started), do the next steps:
+
+1. Install Angular CLI
+
+```shell
+sudo npm install -g @angular/cli
 ```
 
 ## TO-DOs

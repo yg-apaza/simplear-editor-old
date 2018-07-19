@@ -48,16 +48,15 @@ export class ProjectsComponent implements OnInit {
   }
 
   createProject() {
-    const pushId = this.db.createPushId();
-    this.newProject.id = pushId;
+    this.newProject.id = this.db.createPushId();
     this.db.list('projects').set(this.newProject.id, this.newProject);
     console.log("Created: " + this.newProject.id);
     this.createProjectModalReference.close();
     this.router.navigate(['/edit', this.newProject.id]);
   }
 
-  removeProject(projectId, index) {
-    const itemRef = this.db.object('/projects/' + projectId);
+  removeProject(projectId) {
+    const itemRef = this.db.object(`/projects/${projectId}`);
     itemRef.remove();
     delete this.projects[projectId]
   }
