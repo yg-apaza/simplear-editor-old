@@ -36,6 +36,7 @@ function createWindow () {
     }));
   }
 
+  /** TODO: Remove Menu or use custom menu */
   //mainWindow.setMenu(null);
 
   mainWindow.on('closed', function () {

@@ -44,6 +44,10 @@ Finally, go to Database > Rules, and enable anonymous access by copying the foll
 }
 ```
 
+## TO-DOs
+
+- Add i18n
+
 ## Licensing
 
 The code in this project is licensed under [MIT License](LICENSE.md).

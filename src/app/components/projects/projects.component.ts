@@ -25,9 +25,11 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.loadProjects();
     this.newProject = {
+      id: "",
       title: "",
       description: "",
       framework: "artoolkit",
+      /** TODO: Set Author to logged user */
       author: "John Doe"
     };
   }
@@ -46,12 +48,10 @@ export class ProjectsComponent implements OnInit {
   }
 
   createProject() {
-    console.log(this.newProject);
     const pushId = this.db.createPushId();
-    const item = { ...this.newProject, id: pushId };
-    this.db.list('projects').set(item.id, item);
-    
-    console.log("Created: " + item.id);
+    this.newProject.id = pushId;
+    this.db.list('projects').set(this.newProject.id, this.newProject);
+    console.log("Created: " + this.newProject.id);
     this.createProjectModalReference.close();
   }
 
