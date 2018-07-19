@@ -1,0 +1,19 @@
+<div *appLoading="loadingProject">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-9 col-lg-8">
+        <h1 class="page-header">
+            {{ project.title }}
+            <button type="button" class="btn btn-outline-primary btn-md" (click)="save()">
+              <i class="fas fa-save"></i>
+              SAVE
+            </button>
+        </h1>
+        <p>{{ project.description }}</p>
+      </div>
+      <div class="col-12">
+        <p *ngFor="let m of messages">
+          <ngb-alert [type]="m.type" (close)="closeAlert(m)">{{ m.content }}</ngb-alert>
+        </p>
+      </div>
+    </div>  
+  </div>

@@ -12,11 +12,16 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LoadingDirective } from './directives/loading.directive';
 import { LoadingComponent } from './components/loading/loading.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 const appRoutes: Routes = [
   {
     path: 'projects',
     component: ProjectsComponent
+  },
+  {
+    path: 'edit/:id',
+    component: EditorComponent
   },
   {
     path: '',
@@ -35,7 +40,8 @@ const appRoutes: Routes = [
     ProjectsComponent,
     PageNotFoundComponent,
     LoadingDirective,
-    LoadingComponent
+    LoadingComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
