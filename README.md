@@ -57,6 +57,7 @@ sudo npm install -g @angular/cli
 ## TO-DOs
 
 - Add i18n
+- Fix editor resizable
 
 ## Licensing
 

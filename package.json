@@ -38,6 +38,7 @@
     "core-js": "^2.5.4",
     "firebase": "^5.2.0",
     "rxjs": "^6.0.0",
+    "sprintf-js": "^1.1.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -48,6 +49,7 @@
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "@types/sprintf-js": "^1.1.0",
     "codelyzer": "~4.2.1",
     "electron": "^2.0.5",
     "electron-reload": "^1.2.5",

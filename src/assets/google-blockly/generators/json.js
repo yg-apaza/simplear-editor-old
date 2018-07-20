@@ -1,25 +1,28 @@
-'use strict';
-
-goog.require('Blockly.Generator');
-
 Blockly.JSON = new Blockly.Generator('JSON');
 
-Blockly.JSON.ORDER_ATOMIC = 0;
-
-Blockly.JSON.init = function(workspace) {
-  Blockly.JSON.objectContainer = Object.create(null);
-  Blockly.JSON.objectContainer = '{ "interfaces": [ $ ] }';
+Blockly.JSON.start = function(block) {
+  var statements_events = Blockly.JSON.statementToCode(block, 'EVENTS');
+  var code = `{interactions: [ ${statements_events} ]}`;
+  return code;
 };
 
-Blockly.JSON.finish = function(code) {
-  var objectContainer = Blockly.JSON.objectContainer;
-  delete Blockly.JSON.objectContainer;
-  return objectContainer.replace('$', code);
+var eventJSONTemplate = '{ "event": %d , "marker": "%s" , %s }';
+
+Blockly.JSON.marker_is_detected = function(block) {
+  var text_marker_name = block.getFieldValue('MARKER_NAME');
+  var statements_action_input = Blockly.JSON.statementToCode(block, 'ACTION_INPUT');
+  var code = sprintf(eventJSONTemplate, 1, text_marker_name, statements_action_input);
+  var nextStatement = "";
+  // TODO: Ignore events without action or give a default value.
+  if(block.getNextBlock())
+      nextStatement = ", " + Blockly.JSON.marker_is_detected(block.getNextBlock());
+  return code + nextStatement;
 };
 
-Blockly.JSON.scrub_ = function(block, code) {
-  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  if(nextBlock)
-    return code + " , " + Blockly.JSON.blockToCode(nextBlock);
+var actionJSONTemplate = '"action": %d , "resource": "%s"';
+
+Blockly.JSON.augment_resource = function(block) {
+  var text_resource_name = block.getFieldValue('RESOURCE_NAME');
+  var code = sprintf(actionJSONTemplate, 1, text_resource_name);
   return code;
 };
