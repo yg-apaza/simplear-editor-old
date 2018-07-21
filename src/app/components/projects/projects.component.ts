@@ -12,6 +12,7 @@ import { Project } from '../../interfaces/project';
 export class ProjectsComponent implements OnInit {
 
   loadingProjects: boolean;
+  // TODO: set to a defined type
   projects: any;
   newProject: Project;
   createProjectModalReference: NgbModalRef;
@@ -50,7 +51,7 @@ export class ProjectsComponent implements OnInit {
   createProject() {
     this.newProject.id = this.db.createPushId();
     this.db.list('projects').set(this.newProject.id, this.newProject);
-    console.log("Created: " + this.newProject.id);
+    console.log(`Created: ${this.newProject.id}`);
     this.createProjectModalReference.close();
     this.router.navigate(['/edit', this.newProject.id]);
   }

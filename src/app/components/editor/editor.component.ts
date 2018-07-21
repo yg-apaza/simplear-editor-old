@@ -8,6 +8,8 @@ import { Support } from '../../interfaces/support';
 // Supported frameworks
 import ArtoolkitSupport from './frameworks/artoolkit-support';
 import VuforiaSupport from './frameworks/vuforia-support';
+import { Resource } from '../../interfaces/resource';
+import { DataSnapshot } from 'angularfire2/database/interfaces';
 
 declare var Blockly: any;
 
@@ -19,12 +21,12 @@ declare var Blockly: any;
 export class EditorComponent implements OnInit {
 
   loadingProject: boolean;
-  project: Project;
   alerts: Array<any> = [];
+  project: Project;
+  // TODO: Use the Resource interface
+  resources: any;
 
-  // Blockly parameters
   frameworkSupport: Support;
-  
   workspace: string = 
     `<xml>
       <block type="start" deletable="false" movable="false"></block>
@@ -39,14 +41,26 @@ export class EditorComponent implements OnInit {
     this.loadingProject = true;
     
     this.route.params.subscribe(params => {
-      this.db.object(`/projects/${params['id']}`).query.once('value')
-        .then(data => {
-          this.loadingProject = false;
-          this.project = data.val();
-          
-          this.setFrameworkSupport(this.project.framework);
-          this.startBlockly();
-        });;
+
+      let promises:Promise<DataSnapshot>[] = [
+        this.db.object(`/projects/${params['id']}`).query.once('value'),
+        this.db.list(`/resources/${params['id']}`).query.once('value')
+      ];
+
+      Promise.all(promises).then((results: DataSnapshot[]) => {
+        // Get Project
+        this.project = results[0].val();
+        this.setFrameworkSupport(this.project.framework);
+        this.startBlockly();
+
+        // Get Resources
+        this.resources = results[1].val();
+        if(!this.resources)
+          this.resources = {};
+
+        this.loadingProject = false;
+      });
+      
     });
   }
 

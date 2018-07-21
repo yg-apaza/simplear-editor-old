@@ -20,20 +20,13 @@ This will start a server on localhost:4200 and open the desktop app on developme
 sudo apt-get install libgconf-2-4
 ```
 
-### Initial Configuration
+### Firebase configuration
 
 Create a new Firebase app on the [Firebase console](https://console.firebase.google.com/) with your Google Account by clicking on ``Add project`` and typing a name for your app.
 
-Then click on ``Add Firebase to your web app``, and copy the config info (available under Authentication tab, then click on Web Setup on the upper right corner) on the corresponding fields into [src/environments/environment.ts](src/environments/environment.ts), do the same to [src/environments/environment.prod.ts](src/environments/environment.prod.ts).
+Then click on ``Add Firebase to your web app``, and copy the config info (available under Authentication tab, then click on Web Setup on the upper right corner) on the ``environment.firebase`` fields into [src/environments/environment.ts](src/environments/environment.ts), do the same to [src/environments/environment.prod.ts](src/environments/environment.prod.ts).
 
-To prevent your keys from being exposed on Github, use the following commands:
-
-```shell
-git update-index --assume-unchanged src/environments/environment.ts
-git update-index --assume-unchanged src/environments/environment.prod.ts
-```
-
-Finally, go to Database > Rules, and enable anonymous access by copying the following on the text box:
+Go to Database > Rules, and enable anonymous access by copying the following on the text box:
 
 ```
 {
@@ -42,6 +35,18 @@ Finally, go to Database > Rules, and enable anonymous access by copying the foll
     ".write": true
   }
 }
+```
+
+### Poly API configuration
+
+Follow the [Poly API Guide](https://developers.google.com/poly/develop/api) to get a Poly API Key, then put the key on the ``environment.poly.apiKey`` into [src/environments/environment.ts](src/environments/environment.ts), do the same to [src/environments/environment.prod.ts](src/environments/environment.prod.ts).
+
+
+Finally, to prevent your keys from being exposed on Github, use the following commands:
+
+```shell
+git update-index --assume-unchanged src/environments/environment.ts
+git update-index --assume-unchanged src/environments/environment.prod.ts
 ```
 
 ## Developing
