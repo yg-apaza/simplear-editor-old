@@ -30,7 +30,7 @@ export class EditorComponent implements OnInit {
   workspace: string = 
     `<xml>
       <block type="start" deletable="false" movable="false"></block>
-    </xml>`
+    </xml>`;
 
   constructor(
     private route: ActivatedRoute,
@@ -92,23 +92,24 @@ export class EditorComponent implements OnInit {
     let workspacePlayground = Blockly.inject(blocklyDiv, { toolbox: blocksDefinition.createToolbox(this.frameworkSupport) });
     
     // Resizable workspace
-    let onresize = function (e) {
+    // TODO: Emit resize event when the vertical scrollbar appears
+    let onresize = function () {
       let element: HTMLElement = blocklyArea;
       let x = 0, y = 0;
       do {
         x += element.offsetLeft;
-        y += element.offsetTop;
+        //y += element.offsetTop;
         element = element.offsetParent as HTMLElement;
       } while (element);
       blocklyDiv.style.left = x + 'px';
       blocklyDiv.style.top = y + 'px';
       blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
       blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+      Blockly.svgResize(workspacePlayground);
     };
     window.addEventListener('resize', onresize, false);
-    onresize(1);
-    Blockly.svgResize(workspacePlayground);
-
+    onresize();
+    
     // Initialize workspace with a Start Block
     Blockly.mainWorkspace.clear();
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(this.workspace), workspacePlayground);

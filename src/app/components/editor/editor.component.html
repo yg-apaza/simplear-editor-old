@@ -1,7 +1,7 @@
 <div *appLoading="loadingProject">
 
   <div class="row">
-    <div class="col-12 col-sm-12 col-md-9 col-lg-8">
+    <div class="col-12">
       <h1 class="page-header">
           {{ project.title }}
           <button type="button" class="btn btn-outline-primary btn-md" (click)="save()">
@@ -17,13 +17,14 @@
       </p>
     </div>
   </div>
+    
   <app-poly [project]="project" [resources]="resources"></app-poly>
 </div>
 
 <div class="row">
   <div class="col-12">
-    <div id="blocklyArea">
-      <div id="blocklyDiv" style="height: 480px; width: 500px;"></div>
+    <div id="blocklyArea" style="height:60vh;" #blocklyarea>
+      <div id="blocklyDiv" style="position: absolute;" #blocklydiv></div>
     </div>
   </div>
 </div>

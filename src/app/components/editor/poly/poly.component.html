@@ -1,15 +1,15 @@
 <div class="row">
-  <div class="col-12 bottom-margin">
+  <div class="col-12 mb-2">
     <ngb-accordion #acc="ngbAccordion">
         <ngb-panel title="Resources">
           <ng-template ngbPanelContent>
-            <button type="button" class="bottom-margin btn btn-success" (click)="openAddResourceModal(addResourceModal)">
+            <button type="button" class="mb-2 btn btn-success" (click)="openAddResourceModal(addResourceModal)">
               <i class="fa fa-plus"></i>
               Add resource
             </button>
             <div class="row">
-              <div class="col-sm-4 col-md-3 col-lg-2 col-xl-2" *ngFor="let pr of polyResources; let i = index">
-                <img src="{{ pr.thumbnail.url }}" class="img-fluid bottom-margin right-margin">
+              <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2" *ngFor="let pr of polyResources; let i = index">
+                <img src="{{ pr.thumbnail.url }}" class="img-fluid mb-1">
                 <p class="text-center">{{ polyResourcesIds[i] }}</p>
               </div>
             </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="modal-body">
   
-      <div class="form-row bottom-margin">
+      <div class="form-row mb-2">
         <div class="col-10">
           <input class="form-control" placeholder="Enter keywords" required (keyup.enter)="searchKeywords()" [(ngModel)]="keywords"
             name="keywords">
@@ -42,7 +42,7 @@
       </div>
 
       <form (ngSubmit)="addResource()">
-        <div class="card text-center text-secondary bottom-margin">
+        <div class="card text-center text-secondary mb-2">
           <div class="card-body">
             <div *ngIf="showPlaceholderEmptySearch">
               <p class="card-text">

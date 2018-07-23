@@ -1,16 +1,10 @@
-.custom-container {
-    padding-top: 56px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
 .page-header {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
 
 .vertical-container {
-    height: 300px;
+    height: 250px;
 }
 
 .dashed-card {
@@ -43,10 +37,8 @@ label>input:checked+img {
     border: 8px solid var(--success);
 }
 
-.bottom-margin {
-    margin-bottom: 1rem;
-}
-
-.right-margin {
-    margin-right: 1rem;
+.accordion .card:first-of-type {
+    border-bottom-color: rgba(0, 0, 0, 0.125) !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
 }
