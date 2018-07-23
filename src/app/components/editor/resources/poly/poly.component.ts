@@ -89,7 +89,6 @@ export class PolyComponent implements OnInit {
       // TODO: Allow the user to set the resource id, currently the id matches the poly id 
       let id = content;
 
-      // TODO: Use real-time listening for this.resources
       let newPoly = {
         id: id,
         // TODO: Allow the user to set a pretty resource name

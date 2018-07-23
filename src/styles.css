@@ -42,3 +42,7 @@ label>input:checked+img {
     border-bottom-style: solid !important;
     border-bottom-width: 1px !important;
 }
+
+.img-full {
+    width: 100%
+}
