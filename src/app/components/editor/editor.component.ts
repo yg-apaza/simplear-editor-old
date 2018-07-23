@@ -21,13 +21,14 @@ declare var Blockly: any;
 export class EditorComponent implements OnInit {
 
   loadingProject: boolean;
-  alerts: Array<any> = [];
+  // TODO: Set to type message(type, content)
+  messages: Array<any> = [];
   project: Project;
   // TODO: Use the Resource interface
   resources: any;
 
   frameworkSupport: Support;
-  workspace: string = 
+  defaultWorkspace: string = 
     `<xml>
       <block type="start" deletable="false" movable="false"></block>
     </xml>`;
@@ -44,7 +45,8 @@ export class EditorComponent implements OnInit {
 
       let promises:Promise<DataSnapshot>[] = [
         this.db.object(`/projects/${params['id']}`).query.once('value'),
-        this.db.list(`/resources/${params['id']}`).query.once('value')
+        this.db.list(`/resources/${params['id']}`).query.once('value'),
+        this.db.object(`/workspaces/${params['id']}`).query.once('value')
       ];
 
       Promise.all(promises).then((results: DataSnapshot[]) => {
@@ -57,6 +59,12 @@ export class EditorComponent implements OnInit {
         this.resources = results[1].val();
         if(!this.resources)
           this.resources = {};
+
+        // Restore workspace
+        if(results[2].val())
+          this.setWorkspace(results[2].val());
+        else
+          this.setWorkspace(this.defaultWorkspace);
 
         this.loadingProject = false;
       });
@@ -110,17 +118,70 @@ export class EditorComponent implements OnInit {
     window.addEventListener('resize', onresize, false);
     onresize();
     
-    // Initialize workspace with a Start Block
-    Blockly.mainWorkspace.clear();
-    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(this.workspace), workspacePlayground);
-
     // Disable orphan blocks
     Blockly.mainWorkspace.addChangeListener(Blockly.Events.disableOrphans);
+
+    // Add event listener for real time code generation
+    Blockly.mainWorkspace.addChangeListener(event => {
+      if (
+        event.type == Blockly.Events.CREATE ||
+        event.type == Blockly.Events.DELETE ||
+        event.type == Blockly.Events.MOVE ||
+        event.type == Blockly.Events.CHANGE ) {
+        let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
+        if(this.checkGeneratedCode(code)) {
+          console.log("Fire up BlocksApproved event");
+        }
+        else {
+          console.log("Fire up BlocksRejected event");
+        }
+      }
+    });
+
+  }
+
+  setWorkspace(workspace: string){
+    // Initialize workspace with a Start Block
+    Blockly.mainWorkspace.clear();
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(workspace), Blockly.mainWorkspace);
   }
 
   save() {
     let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
-    console.log(code);
+    if(this.checkGeneratedCode(code)) {
+      let interactions = JSON.parse(code).interactions;
+      this.messages.push({
+        type: 'success',
+        content: 'Project saved !',
+      });
+      // Save interactions
+      this.db.list('interactions').set(this.project.id, interactions);
+      // Save workspace
+      let xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+      let xml_text:string = Blockly.Xml.domToPrettyText(xml);
+      this.db.list('workspaces').set(this.project.id, xml_text);
+    }
+    else {
+      this.messages.push({
+        type: 'danger',
+        content: 'Some interactions are incomplete and/or there are remaining blocks',
+      });
+    }
+  }
+
+  // TODO: Validate semantic
+  checkGeneratedCode(code: string) : boolean {
+    try {
+      JSON.parse(code).interactions;
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  public closeAlert(alert: any) {
+    const index: number = this.messages.indexOf(alert);
+    this.messages.splice(index, 1);
   }
 
 }
