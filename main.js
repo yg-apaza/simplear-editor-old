@@ -28,17 +28,15 @@ function createWindow () {
       electron: require(path.join(__dirname, 'node_modules', 'electron'))
     });
     mainWindow.loadURL('http://localhost:4200');
+    mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, 'dist', 'index.html'),
       protocol: 'file:',
       slashes: true
     }));
-  }
-
-  /** TODO: Remove Menu or use custom menu */
-  mainWindow.setMenu(null);
-  mainWindow.webContents.openDevTools();
+    mainWindow.setMenu(null);
+  }  
 
   mainWindow.on('closed', function () {
     mainWindow = null;

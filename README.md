@@ -59,6 +59,12 @@ After following the steps from [Getting started](#installing--getting-started), 
 sudo npm install -g @angular/cli
 ```
 
+2. Install Electron packager
+
+```shell
+sudo npm install electron-packager -g
+```
+
 ## TO-DOs
 
 - Add i18n
