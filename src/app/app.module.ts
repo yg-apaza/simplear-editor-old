@@ -14,7 +14,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LoadingDirective } from './directives/loading.directive';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EditorComponent } from './components/editor/editor.component';
-import { PolyComponent } from './components/editor/poly/poly.component';
+import { PolyComponent } from './components/editor/resources/poly/poly.component';
+import { PredefinedMarkerComponent } from './components/editor/resources/predefined-marker/predefined-marker.component';
 
 const appRoutes: Routes = [
   {
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     LoadingDirective,
     LoadingComponent,
     EditorComponent,
-    PolyComponent
+    PolyComponent,
+    PredefinedMarkerComponent
   ],
   imports: [
     BrowserModule,

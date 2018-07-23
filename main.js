@@ -37,7 +37,8 @@ function createWindow () {
   }
 
   /** TODO: Remove Menu or use custom menu */
-  //mainWindow.setMenu(null);
+  mainWindow.setMenu(null);
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
     mainWindow = null;

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 mb-2">
     <ngb-accordion #acc="ngbAccordion">
-        <ngb-panel title="Resources">
+        <ngb-panel title="Poly Objects">
           <ng-template ngbPanelContent>
-            <button type="button" class="mb-2 btn btn-success" (click)="openAddResourceModal(addResourceModal)">
+            <button type="button" class="mb-2 btn btn-success" (click)="openAddPolyModal(addPolyModal)">
               <i class="fa fa-plus"></i>
               Add resource
             </button>
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<ng-template #addResourceModal let-c="close" let-d="dismiss">
+<ng-template #addPolyModal let-c="close" let-d="dismiss">
 
     <div class="modal-header">
       <h4 class="modal-title">Add Resource</h4>
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <form (ngSubmit)="addResource()">
+      <form (ngSubmit)="addPoly()">
         <div class="card text-center text-secondary mb-2">
           <div class="card-body">
             <div *ngIf="showPlaceholderEmptySearch">
@@ -53,7 +53,7 @@
             <div class="form-row">
               <div class="form-group col-6 col-md-4 col-sm-4" *ngFor="let resource of searchResult; let i = index">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="{{ i }}" [(ngModel)]="selectedResourceIndex" name="selectedResourceIndex">
+                  <input class="form-check-input" type="radio" value="{{ i }}" [(ngModel)]="selectedPolyIndex" name="selectedPolyIndex">
                   <img src="{{ resource.thumbnail.url }}" class="img-fluid">
                 </label>
               </div>

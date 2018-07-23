@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-12 mb-2">
+    <ngb-accordion #acc="ngbAccordion">
+        <ngb-panel title="Resources">
+          <ng-template ngbPanelContent>
+            <button type="button" class="mb-2 btn btn-success" (click)="openAddResourceModal(addResourceModal)">
+              <i class="fa fa-plus"></i>
+              Add resource
+            </button>
+            <div class="row">
+              <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2" *ngFor="let pr of polyResources; let i = index">
+                <img src="{{ pr.thumbnail.url }}" class="img-fluid mb-1">
+                <p class="text-center">{{ polyResourcesIds[i] }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel title="Markers">
+          <ng-template ngbPanelContent>
+            <button type="button" class="bottom-margin btn btn-success" (click)="openAddMarkerModal(addMarkerModal)">
+              <i class="fa fa-plus"></i>
+              Add marker
+            </button>
+            <div class="row">
+              <div class="col-6 col-sm-12 col-md-12 col-lg-6" *ngFor="let marker of markerImageList; let i = index">
+                <img src="{{ marker }}" class="img-fluid bottom-margin right-margin">
+                <p class="text-center">{{ arApp.markers[i] }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>

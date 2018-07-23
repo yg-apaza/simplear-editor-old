@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { PolyService } from '../../../services/poly.service';
-import { Project } from '../../../interfaces/project';
-import { Resource } from '../../../interfaces/resource';
-import { PolyGetResponse } from '../../../interfaces/responses/poly-get-response';
+import { PolyService } from '../../../../services/poly.service';
+import { Project } from '../../../../interfaces/project';
+import { Resource } from '../../../../interfaces/resource';
+import { PolyGetResponse } from '../../../../interfaces/responses/poly-get-response';
 
 @Component({
   selector: 'app-poly',
@@ -23,12 +23,12 @@ export class PolyComponent implements OnInit {
   polyResourcesIds: Array<string> = [];
 
   // Add poly resource
-  addResourceModalReference: NgbModalRef;
+  addPolyModalReference: NgbModalRef;
   keywords: string;
   // TODO: Set Asset as type
   searchResult: Array<any>;
   showPlaceholderEmptySearch: boolean;
-  selectedResourceIndex: number;
+  selectedPolyIndex: number;
 
   constructor(
     private modalService: NgbModal,
@@ -57,9 +57,9 @@ export class PolyComponent implements OnInit {
     });
   }
 
-  openAddResourceModal(content) {
+  openAddPolyModal(content) {
     // TODO: Clean textbox and results
-    this.addResourceModalReference = this.modalService.open(content);
+    this.addPolyModalReference = this.modalService.open(content);
   }
 
   searchKeywords() {
@@ -72,7 +72,7 @@ export class PolyComponent implements OnInit {
                     this.showPlaceholderEmptySearch = false;
                 else
                     this.showPlaceholderEmptySearch = true;
-                this.selectedResourceIndex = -1;
+                this.selectedPolyIndex = -1;
             },
             err => {
                 // TODO: Show error message
@@ -81,16 +81,16 @@ export class PolyComponent implements OnInit {
         )
   }
 
-  addResource() {
+  addPoly() {
     // TODO: Show error message
-    if (this.selectedResourceIndex && this.selectedResourceIndex !== -1) {
-      let selectedResource = this.searchResult[this.selectedResourceIndex];
-      let content = selectedResource.name.substring(7);
+    if (this.selectedPolyIndex && this.selectedPolyIndex !== -1) {
+      let selectedPoly = this.searchResult[this.selectedPolyIndex];
+      let content = selectedPoly.name.substring(7);
       // TODO: Allow the user to set the resource id, currently the id matches the poly id 
       let id = content;
 
       // TODO: Use real-time listening for this.resources
-      let newResource = {
+      let newPoly = {
         id: id,
         // TODO: Allow the user to set a pretty resource name
         description: "",
@@ -98,16 +98,16 @@ export class PolyComponent implements OnInit {
         type: PolyComponent.TYPE_NAME
       };
 
-      this.resources[content] = newResource;
+      this.resources[content] = newPoly;
       
-      this.db.list(`resources/${this.project.id}/`).set(id, newResource);
+      this.db.list(`resources/${this.project.id}/`).set(id, newPoly);
       console.log(`Resource added: ${id}`);
 
-      this.polyResources.push(selectedResource);
+      this.polyResources.push(selectedPoly);
       this.polyResourcesIds.push(id);
     }
 
-    this.addResourceModalReference.close();
+    this.addPolyModalReference.close();
 }
 
 
