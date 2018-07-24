@@ -10,13 +10,15 @@ import ArtoolkitSupport from './frameworks/artoolkit-support';
 import VuforiaSupport from './frameworks/vuforia-support';
 import { Resource } from '../../interfaces/resource';
 import { DataSnapshot } from 'angularfire2/database/interfaces';
+import { IpcService } from '../../services/ipc.service';
 
 declare var Blockly: any;
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css']
+  styleUrls: ['./editor.component.css'],
+  providers: [IpcService]
 })
 export class EditorComponent implements OnInit {
 
@@ -35,14 +37,14 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private ipcService: IpcService
   ) { }
 
   ngOnInit() {
     this.loadingProject = true;
     
     this.route.params.subscribe(params => {
-
       let promises:Promise<DataSnapshot>[] = [
         this.db.object(`/projects/${params['id']}`).query.once('value'),
         this.db.list(`/resources/${params['id']}`).query.once('value'),
@@ -50,23 +52,32 @@ export class EditorComponent implements OnInit {
       ];
 
       Promise.all(promises).then((results: DataSnapshot[]) => {
-        // Get Project
+        // We are initializing resource first to fire resource-related events before interaction events
+        // Get Project and resources
         this.project = results[0].val();
-        this.setFrameworkSupport(this.project.framework);
-        this.startBlockly();
-
-        // Get Resources
         this.resources = results[1].val();
-        if(!this.resources)
+        this.ipcService.sendProjectOpened(this.project.framework);
+
+        // TODO: Wait for FRAMEWORK_READY
+        this.ipcService.onFrameworkReady(() => {
+          if(!this.resources)
           this.resources = {};
+          else {
+            for(let key in this.resources) {
+              this.ipcService.sendResourceCreated(this.resources[key]);
+            }
+          }
+          this.setFrameworkSupport(this.project.framework);
+          this.startBlockly();
 
-        // Restore workspace
-        if(results[2].val())
-          this.setWorkspace(results[2].val());
-        else
-          this.setWorkspace(this.defaultWorkspace);
+          // Restore workspace
+          if(results[2].val())
+            this.setWorkspace(results[2].val());
+          else
+            this.setWorkspace(this.defaultWorkspace);
 
-        this.loadingProject = false;
+          this.loadingProject = false;
+        });
       });
       
     });
@@ -130,10 +141,11 @@ export class EditorComponent implements OnInit {
         event.type == Blockly.Events.CHANGE ) {
         let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
         if(this.checkGeneratedCode(code)) {
-          console.log("Fire up BlocksApproved event");
+          let interactions = JSON.parse(code).interactions;
+          this.ipcService.sendInteractionsApproved(interactions);
         }
         else {
-          console.log("Fire up BlocksRejected event");
+          this.ipcService.sendInteractionsRejected();
         }
       }
     });

@@ -1,10 +1,10 @@
-const electron = require("electron")
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
-const path = require('path')
-const url = require('url')
+const electron = require("electron");
+var {app, BrowserWindow} = electron;
+const path = require('path');
+const url = require('url');
+const consumeEvents = require('./listener');
 
-let mainWindow;
+var mainWindow = null;
 
 // Hot-reload
 const args = process.argv.slice(1);
@@ -60,3 +60,5 @@ app.on('activate', function () {
     createWindow();
   }
 });
+
+consumeEvents();

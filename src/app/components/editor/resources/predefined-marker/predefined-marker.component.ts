@@ -4,11 +4,13 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Resource } from '../../../../interfaces/resource';
 import PredefinedMarker from './predefined-marker';
+import { IpcService } from '../../../../services/ipc.service';
 
 @Component({
   selector: 'app-predefined-marker',
   templateUrl: './predefined-marker.component.html',
-  styleUrls: ['./predefined-marker.component.css']
+  styleUrls: ['./predefined-marker.component.css'],
+  providers: [IpcService]
 })
 export class PredefinedMarkerComponent implements OnInit {
 
@@ -28,7 +30,8 @@ export class PredefinedMarkerComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private ipcService: IpcService
   ) { }
 
   ngOnInit() {
@@ -55,21 +58,21 @@ export class PredefinedMarkerComponent implements OnInit {
       // TODO: Allow the user to set the resource id, currently the id matches the poly id 
       let id = content;
 
-      let newPredefinedMarker = {
+      let newPredefinedMarker: Resource = {
         id: id,
         // TODO: Allow the user to set a pretty resource name
         description: "",
         content: content,
         type: PredefinedMarkerComponent.TYPE_NAME
       };
-
-      this.resources[content] = newPredefinedMarker;
       
       this.db.list(`resources/${this.project.id}/`).set(id, newPredefinedMarker);
-      console.log(`Resource added: ${id}`);
-
       this.predefinedMarkerResources.push(this.availablePredefinedMarkers[this.selectedPredefinedMarker].path);
       this.predefinedMarkerResourcesIds.push(id);
+      this.resources[content] = newPredefinedMarker;
+      this.ipcService.sendResourceCreated(newPredefinedMarker);
+
+      console.log(`Resource added: ${id}`);
     }
 
     this.addPredefinedMarkerModalReference.close();

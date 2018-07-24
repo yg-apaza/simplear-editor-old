@@ -68,7 +68,8 @@ sudo npm install electron-packager -g
 ## TO-DOs
 
 - Add i18n
-- Fix editor resizable
+- Open/Close Viewer
+- Choose between real-time and manual mode
 
 ## Licensing
 

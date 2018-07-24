@@ -5,12 +5,13 @@ import { PolyService } from '../../../../services/poly.service';
 import { Project } from '../../../../interfaces/project';
 import { Resource } from '../../../../interfaces/resource';
 import { PolyGetResponse } from '../../../../interfaces/responses/poly-get-response';
+import { IpcService } from '../../../../services/ipc.service';
 
 @Component({
   selector: 'app-poly',
   templateUrl: './poly.component.html',
   styleUrls: ['./poly.component.css'],
-  providers: [PolyService]
+  providers: [PolyService, IpcService]
 })
 export class PolyComponent implements OnInit {
 
@@ -33,7 +34,8 @@ export class PolyComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private db: AngularFireDatabase,
-    private polyService: PolyService
+    private polyService: PolyService,
+    private ipcService: IpcService
   ) { }
 
   ngOnInit() {
@@ -97,13 +99,12 @@ export class PolyComponent implements OnInit {
         type: PolyComponent.TYPE_NAME
       };
 
-      this.resources[content] = newPoly;
-      
       this.db.list(`resources/${this.project.id}/`).set(id, newPoly);
-      console.log(`Resource added: ${id}`);
-
       this.polyResources.push(selectedPoly);
       this.polyResourcesIds.push(id);
+      this.resources[content] = newPoly;
+      this.ipcService.sendResourceCreated(newPoly);
+      console.log(`Resource added: ${id}`);
     }
 
     this.addPolyModalReference.close();

@@ -1,38 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Project } from '../../interfaces/project';
+import { IpcService } from '../../services/ipc.service';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css']
+  styleUrls: ['./projects.component.css'],
+  providers: [IpcService]
 })
 export class ProjectsComponent implements OnInit {
 
   loadingProjects: boolean;
   // TODO: set to a defined type
   projects: any;
-  newProject: Project;
+  newProject: Project = {
+    id: "",
+    title: "",
+    description: "",
+    framework: "artoolkit",
+    /** TODO: Set Author to logged user */
+    author: "John Doe"
+  };
   createProjectModalReference: NgbModalRef;
+  viewerIsReady: boolean = false;
 
   constructor(
     private router: Router,
     private db: AngularFireDatabase,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private ipcService: IpcService
   ) { }
 
   ngOnInit() {
+    this.loadingProjects = true;
     this.loadProjects();
-    this.newProject = {
-      id: "",
-      title: "",
-      description: "",
-      framework: "artoolkit",
-      /** TODO: Set Author to logged user */
-      author: "John Doe"
-    };
   }
 
   openModal(content) {
@@ -40,12 +44,15 @@ export class ProjectsComponent implements OnInit {
   }
 
   loadProjects() {
-    this.loadingProjects = true;
-    this.db.list('projects').query.once('value')
+    this.ipcService.sendWaitingViewer();
+    this.ipcService.onViewerReady((event, args) => {
+      console.log("on viewer ready");
+      this.db.list('projects').query.once('value')
       .then(data => {
         this.projects = data.val();
         this.loadingProjects = false;
       });
+    });
   }
 
   createProject() {
