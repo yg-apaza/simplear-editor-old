@@ -58,7 +58,6 @@ export class EditorComponent implements OnInit {
         this.resources = results[1].val();
         this.ipcService.sendProjectOpened(this.project.framework);
 
-        // TODO: Wait for FRAMEWORK_READY
         this.ipcService.onFrameworkReady(() => {
           if(!this.resources)
           this.resources = {};

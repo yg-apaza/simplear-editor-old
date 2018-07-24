@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -46,7 +46,6 @@ export class ProjectsComponent implements OnInit {
   loadProjects() {
     this.ipcService.sendWaitingViewer();
     this.ipcService.onViewerReady((event, args) => {
-      console.log("on viewer ready");
       this.db.list('projects').query.once('value')
       .then(data => {
         this.projects = data.val();
