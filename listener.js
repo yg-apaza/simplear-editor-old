@@ -1,7 +1,7 @@
 const electron = require("electron");
 var ipcMain = electron.ipcMain;
 
-//  Events consumed
+//  Events consumed by IPC Main and emitted by local socket
 var WAITING_VIEWER = 'waiting_viewer';
 var PROJECT_OPENED = 'project_opened';
 var PROJECT_CLOSED = 'project_closed';
@@ -11,7 +11,7 @@ var RESOURCE_CREATED = 'resource_created';
 var RESOURCE_DELETED = 'resource_deleted';
 var RESOURCE_RENAMED = 'resource_renamed';
 
-// Events emitted
+// Events emitted by IPC Main and consumed by local socket
 var VIEWER_READY = 'viewer_ready';
 var FRAMEWORK_READY = 'framework_ready';
 

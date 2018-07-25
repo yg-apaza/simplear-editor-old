@@ -56,13 +56,13 @@ After following the steps from [Getting started](#installing--getting-started), 
 1. Install Angular CLI
 
 ```shell
-sudo npm install -g @angular/cli
+npm install -g @angular/cli
 ```
 
 2. Install Electron packager
 
 ```shell
-sudo npm install electron-packager -g
+npm install electron-packager -g
 ```
 
 ## TO-DOs
