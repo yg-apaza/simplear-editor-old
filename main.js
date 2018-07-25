@@ -2,7 +2,7 @@ const electron = require("electron");
 var {app, BrowserWindow} = electron;
 const path = require('path');
 const url = require('url');
-const consumeEvents = require('./listener');
+const setupServerSocket = require('./socketlistener');
 
 var mainWindow = null;
 
@@ -45,6 +45,8 @@ function createWindow () {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
+
+  setupServerSocket(mainWindow);
 }
 
 app.on('ready', createWindow);
@@ -60,5 +62,3 @@ app.on('activate', function () {
     createWindow();
   }
 });
-
-consumeEvents();

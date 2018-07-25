@@ -67,7 +67,7 @@ export class IpcService {
   }
 
   public sendProjectOpened(framework: string) {
-    this.send(IpcService.PROJECT_OPENED, framework);
+    this.send(IpcService.PROJECT_OPENED, {framework: framework});
   }
 
   public sendProjectClosed() {
@@ -75,11 +75,11 @@ export class IpcService {
   }
 
   public sendInteractionsApproved(interactions: Array<Interaction>) {
-    this.send(IpcService.INTERACTIONS_APPROVED, interactions);
+    this.send(IpcService.INTERACTIONS_APPROVED, {interactions: interactions});
   }
 
   public sendInteractionsRejected() {
-    this.send(IpcService.INTERACTIONS_APPROVED, []);
+    this.send(IpcService.INTERACTIONS_REJECTED, {});
   }
 
   public sendResourceCreated(resource: Resource) {

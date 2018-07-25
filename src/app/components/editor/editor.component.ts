@@ -141,9 +141,11 @@ export class EditorComponent implements OnInit {
         let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
         if(this.checkGeneratedCode(code)) {
           let interactions = JSON.parse(code).interactions;
+          console.log("APPROVED");
           this.ipcService.sendInteractionsApproved(interactions);
         }
         else {
+          console.log("REJECTED");
           this.ipcService.sendInteractionsRejected();
         }
       }

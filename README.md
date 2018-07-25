@@ -14,7 +14,7 @@ npm install
 npm start
 ```
 
-This will start a server on localhost:4200 and open the desktop app on development mode. For running on Linux, you need to install libgconf:
+This will start an Angular client server on localhost:4200 and a socket server on localhost:9838. The desktop app will appear on development mode. For running on Linux, you need to install libgconf:
 
 ```shell
 sudo apt-get install libgconf-2-4
@@ -35,6 +35,20 @@ Go to Database > Rules, and enable anonymous access by copying the following on 
     ".write": true
   }
 }
+```
+
+### Socket server
+
+Download a [Socket Server Tester](https://sourceforge.net/projects/sockettest/), and listen to 127.0.0.1:9838, and do the following:
+
+1. Everytime you open the projects list page, you need to send this message:
+```
+26#{"_type": "viewer_ready"}
+```
+
+2. Everytime you open a project, you need to send:
+```
+29#{"_type": "framework_ready"}
 ```
 
 ### Poly API configuration
