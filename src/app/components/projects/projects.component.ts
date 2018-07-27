@@ -13,7 +13,7 @@ import { IpcService } from '../../services/ipc.service';
 })
 export class ProjectsComponent implements OnInit {
 
-  loadingProjects: boolean;
+  loadingProjects: boolean = true;
   // TODO: set to a defined type
   projects: any;
   newProject: Project = {
@@ -35,7 +35,6 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadingProjects = true;
     this.loadProjects();
   }
 
@@ -44,14 +43,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   loadProjects() {
-    this.ipcService.sendWaitingViewer();
     this.ipcService.onViewerReady((event, args) => {
       this.db.list('projects').query.once('value')
-      .then(data => {
-        this.projects = data.val();
-        this.loadingProjects = false;
+        .then(data => {
+          this.projects = data.val();
+          this.loadingProjects = false;
       });
     });
+    this.ipcService.sendWaitingViewer();
   }
 
   createProject() {

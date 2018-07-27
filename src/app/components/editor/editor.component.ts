@@ -22,7 +22,7 @@ declare var Blockly: any;
 })
 export class EditorComponent implements OnInit {
 
-  loadingProject: boolean;
+  loadingProject: boolean = true;
   // TODO: Set to type message(type, content)
   messages: Array<any> = [];
   project: Project;
@@ -42,9 +42,9 @@ export class EditorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadingProject = true;
-    
     this.route.params.subscribe(params => {
+
+      //  TODO: Show error for project not found
       let promises:Promise<DataSnapshot>[] = [
         this.db.object(`/projects/${params['id']}`).query.once('value'),
         this.db.list(`/resources/${params['id']}`).query.once('value'),
@@ -56,11 +56,9 @@ export class EditorComponent implements OnInit {
         // Get Project and resources
         this.project = results[0].val();
         this.resources = results[1].val();
-        this.ipcService.sendProjectOpened(this.project.framework);
-
         this.ipcService.onFrameworkReady(() => {
           if(!this.resources)
-          this.resources = {};
+            this.resources = {};
           else {
             for(let key in this.resources) {
               this.ipcService.sendResourceCreated(this.resources[key]);
@@ -77,6 +75,7 @@ export class EditorComponent implements OnInit {
 
           this.loadingProject = false;
         });
+        this.ipcService.sendProjectOpened(this.project.framework);
       });
       
     });
@@ -141,11 +140,9 @@ export class EditorComponent implements OnInit {
         let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
         if(this.checkGeneratedCode(code)) {
           let interactions = JSON.parse(code).interactions;
-          console.log("APPROVED");
           this.ipcService.sendInteractionsApproved(interactions);
         }
         else {
-          console.log("REJECTED");
           this.ipcService.sendInteractionsRejected();
         }
       }

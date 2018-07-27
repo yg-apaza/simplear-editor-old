@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { IpcRenderer } from 'electron';
+import { ElectronService } from 'ngx-electron';
 import { Interaction } from '../interfaces/interaction';
 import { Resource } from '../interfaces/resource';
 
@@ -7,8 +7,6 @@ import { Resource } from '../interfaces/resource';
   providedIn: 'root'
 })
 export class IpcService {
-
-  private _ipc: IpcRenderer | undefined = void 0;
 
   //  Events emitted
   public static WAITING_VIEWER: string = 'waiting_viewer';
@@ -25,33 +23,21 @@ export class IpcService {
   public static FRAMEWORK_READY: string = 'framework_ready';
 
   constructor(
+    private _electronService: ElectronService,
     private zone: NgZone
-  ) {
-    if (window.require) {
-      try {
-        this._ipc = window.require('electron').ipcRenderer;
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      console.warn('Electron\'s IPC was not loaded');
-    }
-  }
+  ) {}
 
   private on(channel: string, listener: Function): void {
-    if (!this._ipc)
-      return;
-    this._ipc.on(channel, (event, args) => {
-      this.zone.run(()=>{
+    this._electronService.ipcRenderer.removeAllListeners(channel);
+    this._electronService.ipcRenderer.on(channel, () => {
+      this.zone.run(() => {
         listener();
       });
     });
   }
 
   private send(channel: string, ...args): void {
-    if (!this._ipc)
-      return;
-    this._ipc.send(channel, ...args);
+    this._electronService.ipcRenderer.send(channel, ...args);
   }
 
   public onViewerReady(listener: Function) {

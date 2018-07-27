@@ -23,20 +23,18 @@ function setupServerSocket(mainWindow) {
         var server = net.createServer();
         server.listen(port);
 
-        server.on('connection', function(socket) {
+        server.once('connection', function(socket) {
             socket = new JsonSocket(socket);
             ipcMain.on(WAITING_VIEWER, (event, arg) => {  
                 console.log(`>> ${WAITING_VIEWER}`);
                 console.log(JSON.stringify(arg));
                 socket.sendMessage({ _type: WAITING_VIEWER, ...arg});
-                //event.sender.send(VIEWER_READY, {});
             });
 
             ipcMain.on(PROJECT_OPENED, (event, arg) => {  
                 console.log(`>> ${PROJECT_OPENED}`);
                 console.log(JSON.stringify(arg));
                 socket.sendMessage({ _type: PROJECT_OPENED, ...arg});
-                //event.sender.send(FRAMEWORK_READY, {});
             });
 
             ipcMain.on(PROJECT_CLOSED, (event, arg) => {  
@@ -66,9 +64,11 @@ function setupServerSocket(mainWindow) {
             socket.on('message', function(message) {
                 switch(message._type) {
                     case VIEWER_READY:
+                        console.log(`>> ${VIEWER_READY}`);
                         mainWindow.webContents.send(VIEWER_READY, {});
                         break;
                     case FRAMEWORK_READY:
+                        console.log(`>> ${FRAMEWORK_READY}`);
                         mainWindow.webContents.send(FRAMEWORK_READY, {});
                         break;
                     default:
