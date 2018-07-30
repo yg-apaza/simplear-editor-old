@@ -1,6 +1,7 @@
 type Resource = {
     poly: boolean,
-    marker: boolean
+    pfmarker: boolean,
+    pnmarker: boolean
 }
 
 type Event = {

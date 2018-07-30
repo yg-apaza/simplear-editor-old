@@ -29,12 +29,14 @@ function setupServerSocket(mainWindow) {
                 console.log(`>> ${WAITING_VIEWER}`);
                 console.log(JSON.stringify(arg));
                 socket.sendMessage({ _type: WAITING_VIEWER, ...arg});
+                //event.sender.send(VIEWER_READY, {});
             });
 
             ipcMain.on(PROJECT_OPENED, (event, arg) => {  
                 console.log(`>> ${PROJECT_OPENED}`);
                 console.log(JSON.stringify(arg));
                 socket.sendMessage({ _type: PROJECT_OPENED, ...arg});
+                //event.sender.send(FRAMEWORK_READY, {});
             });
 
             ipcMain.on(PROJECT_CLOSED, (event, arg) => {  

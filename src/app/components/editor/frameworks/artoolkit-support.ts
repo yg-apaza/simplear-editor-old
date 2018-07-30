@@ -6,7 +6,8 @@ ArtoolkitSupport = {
   framework: "artoolkit",
   resources: {
     poly: true,
-    marker: true
+    pfmarker: true,
+    pnmarker: false
   },
   events: {
     marker_is_detected: true

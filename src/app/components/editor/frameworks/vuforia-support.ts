@@ -6,7 +6,8 @@ VuforiaSupport = {
   framework: "vuforia",
   resources: {
     poly: true,
-    marker: true
+    pfmarker: false,
+    pnmarker: true
   },
   events: {
     marker_is_detected: true

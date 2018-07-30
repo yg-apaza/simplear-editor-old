@@ -19,8 +19,8 @@
   </div>
   
   <!-- Resources -->
-  <app-predefined-marker [project]="project" [resources]="resources"></app-predefined-marker>
-  <app-poly [project]="project" [resources]="resources"></app-poly>
+  <app-predefined-marker *ngIf="frameworkSupport.resources.pfmarker" [project]="project" [resources]="resources"></app-predefined-marker>
+  <app-poly *ngIf="frameworkSupport.resources.poly" [project]="project" [resources]="resources"></app-poly>
   
 </div>
 

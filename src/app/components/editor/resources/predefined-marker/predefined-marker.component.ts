@@ -14,7 +14,7 @@ import { IpcService } from '../../../../services/ipc.service';
 })
 export class PredefinedMarkerComponent implements OnInit {
 
-  public static TYPE_NAME: string = 'pmarker';
+  public static TYPE_NAME: string = 'pfmarker';
 
   @Input() project: Project;
   @Input() resources: any;
