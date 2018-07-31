@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-12 mb-2">
+    <ngb-accordion #acc="ngbAccordion">
+        <ngb-panel title="Predefined Natural Markers">
+          <ng-template ngbPanelContent>
+            <button type="button" class="mb-2 btn btn-success" (click)="openAddPredefinedNaturalMarkerModal(addPredefinedNaturalMarkerModal)">
+              <i class="fa fa-plus"></i>
+              Add predefined natural marker
+            </button>
+            <div class="row">
+              <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2" *ngFor="let path of predefinedNaturalMarkerResources; let i = index">
+                <img src="{{ path }}" class="img-full mb-1">
+                <p class="text-center">{{ predefinedNaturalMarkerResourcesIds[i] }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+
+<ng-template #addPredefinedNaturalMarkerModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add predefined natural marker</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="addPredefinedNaturalMarker()">
+      <div class="form-row">
+        <div class="form-group col-6 col-md-3 col-sm-4" *ngFor="let pm of availablePredefinedNaturalMarkers | keyvalue">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" value="{{ pm.key }}" [(ngModel)]="selectedPredefinedNaturalMarker" name="selectedPredefinedNaturalMarker">
+              <img src="{{ pm.value.path }}" class="img-full">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success">OK</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

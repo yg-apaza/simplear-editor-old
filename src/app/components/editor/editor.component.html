@@ -19,7 +19,8 @@
   </div>
   
   <!-- Resources -->
-  <app-predefined-marker *ngIf="frameworkSupport.resources.pfmarker" [project]="project" [resources]="resources"></app-predefined-marker>
+  <app-predefined-fiducial-marker *ngIf="frameworkSupport.resources.pfmarker" [project]="project" [resources]="resources"></app-predefined-fiducial-marker>
+  <app-predefined-natural-marker *ngIf="frameworkSupport.resources.pnmarker" [project]="project" [resources]="resources"></app-predefined-natural-marker>
   <app-poly *ngIf="frameworkSupport.resources.poly" [project]="project" [resources]="resources"></app-poly>
   
 </div>

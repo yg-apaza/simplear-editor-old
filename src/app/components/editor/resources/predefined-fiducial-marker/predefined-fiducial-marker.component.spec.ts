@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PredefinedMarkerComponent } from './predefined-marker.component';
+import { PredefinedMarkerComponent } from './predefined-fiducial-marker.component';
 
 describe('PredefinedMarkerComponent', () => {
   let component: PredefinedMarkerComponent;

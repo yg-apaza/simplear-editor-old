@@ -16,7 +16,8 @@ import { LoadingDirective } from './directives/loading.directive';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { PolyComponent } from './components/editor/resources/poly/poly.component';
-import { PredefinedMarkerComponent } from './components/editor/resources/predefined-marker/predefined-marker.component';
+import { PredefinedFiducialMarkerComponent } from './components/editor/resources/predefined-fiducial-marker/predefined-fiducial-marker.component';
+import { PredefinedNaturalMarkerComponent } from './components/editor/resources/predefined-natural-marker/predefined-natural-marker.component';
 
 const appRoutes: Routes = [
   {
@@ -47,7 +48,8 @@ const appRoutes: Routes = [
     LoadingComponent,
     EditorComponent,
     PolyComponent,
-    PredefinedMarkerComponent
+    PredefinedFiducialMarkerComponent,
+    PredefinedNaturalMarkerComponent
   ],
   imports: [
     BrowserModule,
