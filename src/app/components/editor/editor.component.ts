@@ -164,8 +164,6 @@ export class EditorComponent implements OnInit {
         type: 'success',
         content: 'Project saved !',
       });
-      // Save interactions
-      this.db.list('interactions').set(this.project.id, interactions);
       // Save workspace
       let xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
       let xml_text:string = Blockly.Xml.domToPrettyText(xml);
@@ -192,6 +190,10 @@ export class EditorComponent implements OnInit {
   public closeAlert(alert: any) {
     const index: number = this.messages.indexOf(alert);
     this.messages.splice(index, 1);
+  }
+
+  ngOnDestroy()	{
+    this.ipcService.sendProjectClosed();
   }
 
 }

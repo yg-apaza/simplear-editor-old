@@ -6,7 +6,7 @@ Blockly.JSON.start = function(block) {
   return code;
 };
 
-var eventJSONTemplate = '{ "event": %d , "event_inputs": [%s] , %s }';
+var eventJSONTemplate = '{ "_event": %d , "event_inputs": [%s] , %s }';
 
 Blockly.JSON.marker_is_detected = function(block) {
   var text_marker_name = block.getFieldValue('MARKER_NAME');
@@ -20,7 +20,7 @@ Blockly.JSON.marker_is_detected = function(block) {
 };
 
 
-var actionJSONTemplate = '"action": %d , "action_inputs": [%s]';
+var actionJSONTemplate = '"_action": %d , "action_inputs": [%s]';
 
 Blockly.JSON.augment_resource = function(block) {
   var text_resource_name = block.getFieldValue('RESOURCE_NAME');

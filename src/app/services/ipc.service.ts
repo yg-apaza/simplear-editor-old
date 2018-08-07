@@ -69,7 +69,7 @@ export class IpcService {
   }
 
   public sendResourceCreated(resource: Resource) {
-    this.send(IpcService.RESOURCE_CREATED, resource);
+    this.send(IpcService.RESOURCE_CREATED, {resource: resource});
   }
 
 }

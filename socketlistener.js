@@ -23,7 +23,10 @@ function setupServerSocket(mainWindow) {
         var server = net.createServer();
         server.listen(port);
 
-        server.once('connection', function(socket) {
+        // TODO: Only accept one connection per time, and not repeat the event listeners
+        // TODO: Finish without exceptions each socket connection
+        // TODO: Finish socket server before closing this app
+        server.on('connection', function(socket) {
             socket = new JsonSocket(socket);
             ipcMain.on(WAITING_VIEWER, (event, arg) => {  
                 console.log(`>> ${WAITING_VIEWER}`);

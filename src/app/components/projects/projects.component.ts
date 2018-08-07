@@ -64,12 +64,10 @@ export class ProjectsComponent implements OnInit {
   removeProject(projectId) {
     const projectsRef = this.db.object(`/projects/${projectId}`);
     const resourcesRef = this.db.object(`/resources/${projectId}`);
-    const interactionsRef = this.db.object(`/interactions/${projectId}`);
     const workspacesRef = this.db.object(`/workspaces/${projectId}`);
 
     projectsRef.remove();
     resourcesRef.remove();
-    interactionsRef.remove();
     workspacesRef.remove();
 
     delete this.projects[projectId]
