@@ -10,6 +10,7 @@ import ArtoolkitSupport from './frameworks/artoolkit-support';
 import VuforiaSupport from './frameworks/vuforia-support';
 import { Resource } from '../../interfaces/resource';
 import { DataSnapshot } from 'angularfire2/database/interfaces';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var Blockly: any;
 
@@ -21,11 +22,11 @@ declare var Blockly: any;
 export class EditorComponent implements OnInit {
 
   loadingProject: boolean = true;
-  // TODO: Set to type message(type, content)
-  messages: Array<any> = [];
   project: Project;
   // TODO: Use the Resource interface
   resources: any;
+  previewKey: string = "";
+  previewKeyModalReference: NgbModalRef;
 
   frameworkSupport: Support;
   defaultWorkspace: string = 
@@ -35,6 +36,7 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private modalService: NgbModal,
     private db: AngularFireDatabase
   ) { }
 
@@ -64,9 +66,11 @@ export class EditorComponent implements OnInit {
         else
           this.setWorkspace(this.defaultWorkspace);
 
+        this.previewKey = this.db.createPushId();
+        this.db.list('preview').set(this.previewKey, this.project.id);
+        
         this.loadingProject = false;
       });
-      
     });
   }
 
@@ -167,13 +171,15 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  public closeAlert(alert: any) {
-    const index: number = this.messages.indexOf(alert);
-    this.messages.splice(index, 1);
+  openPreviewKey(content) {
+    this.previewKeyModalReference = this.modalService.open(content);
   }
 
+
   ngOnDestroy()	{
-    // TODO: Close editor viewer
+    // TODO: Remove when reloading
+    const previewKeyRef = this.db.object(`/preview/${this.previewKey}`);
+    previewKeyRef.remove();
   }
 
 }
