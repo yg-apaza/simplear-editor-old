@@ -102,11 +102,6 @@ export class EditorComponent implements OnInit {
     let onresize = function () {
       let element: HTMLElement = blocklyArea;
       let x = 0, y = 0;
-      /* do {
-        x += element.offsetLeft;
-        y += element.offsetTop;
-        element = element.offsetParent as HTMLElement;
-      } while (element); */
       blocklyDiv.style.left = x + 'px';
       blocklyDiv.style.top = y + 'px';
       blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
@@ -126,14 +121,8 @@ export class EditorComponent implements OnInit {
         event.type == Blockly.Events.DELETE ||
         event.type == Blockly.Events.MOVE ||
         event.type == Blockly.Events.CHANGE ) {
-        let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
-        if(this.checkGeneratedCode(code)) {
-          let interactions = JSON.parse(code).interactions;
-          // TODO: Save the interactions to temp file
-        }
-        else {
-          // TODO: Show "interaction rejected" message
-        }
+        // Auto-save for every change detected
+        this.save();
       }
     });
 
@@ -146,30 +135,32 @@ export class EditorComponent implements OnInit {
   }
 
   save() {
+    // Save workspace
+    let xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    let xml_text:string = Blockly.Xml.domToPrettyText(xml);
+    this.db.list('workspaces').set(this.project.id, xml_text);
+
     let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
     if(this.checkGeneratedCode(code)) {
-      let interactions = JSON.parse(code).interactions;
-      this.messages.push({
+      /* this.messages.push({
         type: 'success',
         content: 'Project saved !',
-      });
-      // Save workspace
-      let xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-      let xml_text:string = Blockly.Xml.domToPrettyText(xml);
-      this.db.list('workspaces').set(this.project.id, xml_text);
+      }); */
+      // TODO: Show "interaction approved" message
     }
     else {
-      this.messages.push({
+      /* this.messages.push({
         type: 'danger',
         content: 'Some interactions are incomplete and/or there are remaining blocks',
-      });
+      }); */
+      // TODO: Show "interaction rejected" message
     }
   }
 
   // TODO: Validate semantic
   checkGeneratedCode(code: string) : boolean {
     try {
-      JSON.parse(code).interactions;
+      let interactions = JSON.parse(code).interactions;
       return true;
     } catch(e) {
       return false;

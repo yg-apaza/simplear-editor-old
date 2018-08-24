@@ -3,12 +3,12 @@
     <ngb-accordion #acc="ngbAccordion">
         <ngb-panel title="Predefined Natural Markers">
           <ng-template ngbPanelContent>
-            <button type="button" class="mb-2 btn btn-success" (click)="openAddPredefinedNaturalMarkerModal(addPredefinedNaturalMarkerModal)">
+            <button type="button" class="mb-2 btn btn-success btn-sm" (click)="openAddPredefinedNaturalMarkerModal(addPredefinedNaturalMarkerModal)">
               <i class="fa fa-plus"></i>
-              Add predefined natural marker
+              Add resource
             </button>
             <div class="row">
-              <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2" *ngFor="let path of predefinedNaturalMarkerResources; let i = index">
+              <div class="col-4 col-sm-3 col-md-2 col-lg-6 col-xl-4" *ngFor="let path of predefinedNaturalMarkerResources; let i = index">
                 <img src="{{ path }}" class="img-full mb-1">
                 <p class="text-center">{{ predefinedNaturalMarkerResourcesIds[i] }}</p>
               </div>

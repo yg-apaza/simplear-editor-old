@@ -3,12 +3,12 @@
     <ngb-accordion #acc="ngbAccordion">
         <ngb-panel title="Poly Objects">
           <ng-template ngbPanelContent>
-            <button type="button" class="mb-2 btn btn-success" (click)="openAddPolyModal(addPolyModal)">
+            <button type="button" class="mb-2 btn btn-success btn-sm" (click)="openAddPolyModal(addPolyModal)">
               <i class="fa fa-plus"></i>
-              Add Poly object
+              Add resource
             </button>
             <div class="row">
-              <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2" *ngFor="let pr of polyResources; let i = index">
+              <div class="col-4 col-sm-3 col-md-2 col-lg-6 col-xl-4" *ngFor="let pr of polyResources; let i = index">
                 <img src="{{ pr.thumbnail.url }}" class="img-fluid mb-1">
                 <p class="text-center">{{ polyResourcesIds[i] }}</p>
               </div>
