@@ -3,13 +3,11 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Project } from '../../interfaces/project';
-import { IpcService } from '../../services/ipc.service';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css'],
-  providers: [IpcService]
+  styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent implements OnInit {
 
@@ -30,8 +28,7 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private router: Router,
     private db: AngularFireDatabase,
-    private modalService: NgbModal,
-    private ipcService: IpcService
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -43,14 +40,11 @@ export class ProjectsComponent implements OnInit {
   }
 
   loadProjects() {
-    this.ipcService.onViewerReady((event, args) => {
       this.db.list('projects').query.once('value')
         .then(data => {
           this.projects = data.val();
           this.loadingProjects = false;
-      });
-    });
-    this.ipcService.sendWaitingViewer();
+        });
   }
 
   createProject() {

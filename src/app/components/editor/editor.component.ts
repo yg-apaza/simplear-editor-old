@@ -10,15 +10,13 @@ import ArtoolkitSupport from './frameworks/artoolkit-support';
 import VuforiaSupport from './frameworks/vuforia-support';
 import { Resource } from '../../interfaces/resource';
 import { DataSnapshot } from 'angularfire2/database/interfaces';
-import { IpcService } from '../../services/ipc.service';
 
 declare var Blockly: any;
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css'],
-  providers: [IpcService]
+  styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
 
@@ -37,8 +35,7 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private db: AngularFireDatabase,
-    private ipcService: IpcService
+    private db: AngularFireDatabase
   ) { }
 
   ngOnInit() {
@@ -52,30 +49,22 @@ export class EditorComponent implements OnInit {
       ];
 
       Promise.all(promises).then((results: DataSnapshot[]) => {
-        // We are initializing resource first to fire resource-related events before interaction events
         // Get Project and resources
         this.project = results[0].val();
+        this.setFrameworkSupport(this.project.framework);
+        this.startBlockly();
+        
         this.resources = results[1].val();
-        this.ipcService.onFrameworkReady(() => {
-          if(!this.resources)
-            this.resources = {};
-          else {
-            for(let key in this.resources) {
-              this.ipcService.sendResourceCreated(this.resources[key]);
-            }
-          }
-          this.setFrameworkSupport(this.project.framework);
-          this.startBlockly();
+        if(!this.resources)
+          this.resources = {};
+        
+        // Restore workspace
+        if(results[2].val())
+          this.setWorkspace(results[2].val());
+        else
+          this.setWorkspace(this.defaultWorkspace);
 
-          // Restore workspace
-          if(results[2].val())
-            this.setWorkspace(results[2].val());
-          else
-            this.setWorkspace(this.defaultWorkspace);
-
-          this.loadingProject = false;
-        });
-        this.ipcService.sendProjectOpened(this.project.framework);
+        this.loadingProject = false;
       });
       
     });
@@ -113,11 +102,11 @@ export class EditorComponent implements OnInit {
     let onresize = function () {
       let element: HTMLElement = blocklyArea;
       let x = 0, y = 0;
-      do {
+      /* do {
         x += element.offsetLeft;
-        //y += element.offsetTop;
+        y += element.offsetTop;
         element = element.offsetParent as HTMLElement;
-      } while (element);
+      } while (element); */
       blocklyDiv.style.left = x + 'px';
       blocklyDiv.style.top = y + 'px';
       blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
@@ -140,10 +129,10 @@ export class EditorComponent implements OnInit {
         let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
         if(this.checkGeneratedCode(code)) {
           let interactions = JSON.parse(code).interactions;
-          this.ipcService.sendInteractionsApproved(interactions);
+          // TODO: Save the interactions to temp file
         }
         else {
-          this.ipcService.sendInteractionsRejected();
+          // TODO: Show "interaction rejected" message
         }
       }
     });
@@ -193,7 +182,7 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnDestroy()	{
-    this.ipcService.sendProjectClosed();
+    // TODO: Close editor viewer
   }
 
 }

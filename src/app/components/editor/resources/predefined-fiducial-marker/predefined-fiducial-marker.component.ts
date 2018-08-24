@@ -4,13 +4,11 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Resource } from '../../../../interfaces/resource';
 import PredefinedFiducialMarker from './predefined-fiducial-marker';
-import { IpcService } from '../../../../services/ipc.service';
 
 @Component({
   selector: 'app-predefined-fiducial-marker',
   templateUrl: './predefined-fiducial-marker.component.html',
-  styleUrls: ['./predefined-fiducial-marker.component.css'],
-  providers: [IpcService]
+  styleUrls: ['./predefined-fiducial-marker.component.css']
 })
 export class PredefinedFiducialMarkerComponent implements OnInit {
 
@@ -30,8 +28,7 @@ export class PredefinedFiducialMarkerComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private db: AngularFireDatabase,
-    private ipcService: IpcService
+    private db: AngularFireDatabase
   ) { }
 
   ngOnInit() {
@@ -70,7 +67,6 @@ export class PredefinedFiducialMarkerComponent implements OnInit {
       this.predefinedFiducialMarkerResources.push(this.availablePredefinedFiducialMarkers[this.selectedPredefinedFiducialMarker].path);
       this.predefinedFiducialMarkerResourcesIds.push(id);
       this.resources[content] = newPredefinedFiducialMarker;
-      this.ipcService.sendResourceCreated(newPredefinedFiducialMarker);
 
       console.log(`Resource added: ${id}`);
     }

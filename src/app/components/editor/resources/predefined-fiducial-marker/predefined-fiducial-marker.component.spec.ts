@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PredefinedMarkerComponent } from './predefined-fiducial-marker.component';
+import { PredefinedFiducialMarkerComponent } from './predefined-fiducial-marker.component';
 
 describe('PredefinedMarkerComponent', () => {
-  let component: PredefinedMarkerComponent;
-  let fixture: ComponentFixture<PredefinedMarkerComponent>;
+  let component: PredefinedFiducialMarkerComponent;
+  let fixture: ComponentFixture<PredefinedFiducialMarkerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PredefinedMarkerComponent ]
+      declarations: [ PredefinedFiducialMarkerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PredefinedMarkerComponent);
+    fixture = TestBed.createComponent(PredefinedFiducialMarkerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

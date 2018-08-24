@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IpcService } from '../../../../services/ipc.service';
 import { Project } from '../../../../interfaces/project';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -9,8 +8,7 @@ import { Resource } from '../../../../interfaces/resource';
 @Component({
   selector: 'app-predefined-natural-marker',
   templateUrl: './predefined-natural-marker.component.html',
-  styleUrls: ['./predefined-natural-marker.component.css'],
-  providers: [IpcService]
+  styleUrls: ['./predefined-natural-marker.component.css']
 })
 export class PredefinedNaturalMarkerComponent implements OnInit {
 
@@ -30,8 +28,7 @@ export class PredefinedNaturalMarkerComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private db: AngularFireDatabase,
-    private ipcService: IpcService
+    private db: AngularFireDatabase
   ) { }
 
   ngOnInit() {
@@ -70,7 +67,6 @@ export class PredefinedNaturalMarkerComponent implements OnInit {
       this.predefinedNaturalMarkerResources.push(this.availablePredefinedNaturalMarkers[this.selectedPredefinedNaturalMarker].path);
       this.predefinedNaturalMarkerResourcesIds.push(id);
       this.resources[content] = newPredefinedNaturalMarker;
-      this.ipcService.sendResourceCreated(newPredefinedNaturalMarker);
 
       console.log(`Resource added: ${id}`);
     }
