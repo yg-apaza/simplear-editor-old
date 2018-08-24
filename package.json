@@ -17,7 +17,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ng:serve": "ng serve",
-    "build.prod": "ng build --aot --prod --progress false --base-href \"/simplear-editor/\" && cp dist/index.html dist/404.html"
+    "build.prod": "ng build --aot --prod --progress false --output-path=dist/ --base-href \"/simplear-editor/\" && cp dist/index.html dist/404.html"
   },
   "private": true,
   "dependencies": {
