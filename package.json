@@ -1,28 +1,23 @@
 {
-  "name": "simplear-creator",
-  "productName": "SimpleAR Creator",
+  "name": "simplear-editor",
+  "productName": "SimpleAR Editor",
   "version": "1.0.0",
   "description": "Augmented Reality Authoring Tool",
-  "homepage": "https://github.com/yg-apaza/simplear-creator",
+  "homepage": "https://github.com/yg-apaza/simplear-editor",
   "author": {
     "name": "Yuliana Apaza",
     "email": "yuliana.apaza94@gmail.com",
     "url": "https://yuliana.me"
   },
-  "main": "main.js",
   "scripts": {
     "ng": "ng",
-    "start": "npm-run-all -p ng:serve electron:serve",
-    "build": "npm run electron:build",
+    "start": "ng serve",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ng:serve": "ng serve",
-    "electron:serve": "wait-on http-get://localhost:4200/ && electron . --serve",
-    "electron:build": "ng build --aot --prod --progress false --output-path=dist/ --base-href \"./\" && cp dist/index.html dist/404.html",
-    "package-mac": "npm run electron:build && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icon.icns --prune=true --out=release-builds",
-    "package-win": "npm run electron:build && electron-packager . simplear-creator --overwrite --asar=true --platform=win32 --arch=x64 --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"SimpleAR Creator\"",
-    "package-linux": "npm run electron:build && electron-packager . simplear-creator --overwrite --asar=true --platform=linux --arch=x64 --icon=icon.png --prune=true --out=release-builds"
+    "build.prod": "ng build --aot --prod --progress false --base-href \"/simplear-editor/\" && cp dist/index.html dist/404.html"
   },
   "private": true,
   "dependencies": {
@@ -40,9 +35,7 @@
     "angularfire2": "^5.0.0-rc.11",
     "bootstrap": "^4.1.2",
     "core-js": "^2.5.4",
-    "firebase": "^5.2.0",
-    "json-socket": "^0.3.0",
-    "ngx-electron": "^1.0.4",
+    "firebase": "^5.4.1",
     "rxjs": "^6.0.0",
     "sprintf-js": "^1.1.1",
     "zone.js": "^0.8.26"
@@ -57,9 +50,6 @@
     "@types/node": "~8.9.4",
     "@types/sprintf-js": "^1.1.0",
     "codelyzer": "~4.2.1",
-    "electron": "^2.0.5",
-    "electron-packager": "^12.1.0",
-    "electron-reload": "^1.2.5",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",
@@ -71,7 +61,6 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2",
-    "wait-on": "^2.1.0"
+    "typescript": "~2.7.2"
   }
 }

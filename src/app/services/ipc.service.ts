@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ElectronService } from 'ngx-electron';
 import { Interaction } from '../interfaces/interaction';
 import { Resource } from '../interfaces/resource';
 
@@ -23,21 +22,13 @@ export class IpcService {
   public static FRAMEWORK_READY: string = 'framework_ready';
 
   constructor(
-    private _electronService: ElectronService,
     private zone: NgZone
   ) {}
 
   private on(channel: string, listener: Function): void {
-    this._electronService.ipcRenderer.removeAllListeners(channel);
-    this._electronService.ipcRenderer.on(channel, () => {
-      this.zone.run(() => {
-        listener();
-      });
-    });
   }
 
   private send(channel: string, ...args): void {
-    this._electronService.ipcRenderer.send(channel, ...args);
   }
 
   public onViewerReady(listener: Function) {

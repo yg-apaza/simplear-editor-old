@@ -1,8 +1,8 @@
-# SimpleAR - CREATOR
+# SimpleAR Editor
 
-SimpleAR Creator is an Augmented Reality Authoring Tool using [Google Blockly](https://developers.google.com/blockly/). Through visual programming, you can create augmented reality apps.
+SimpleAR Editor is an Augmented Reality Authoring Tool using [Google Blockly](https://developers.google.com/blockly/). Through visual programming, you can create augmented reality apps.
 
-![Screenshot of Simple AR](screenshot.png)
+![Screenshot of Simple AR Editor](screenshot.png)
 
 ## Installing / Getting started
 
@@ -14,11 +14,7 @@ npm install
 npm start
 ```
 
-This will start an Angular client server on localhost:4200 and a socket server on localhost:9838. The desktop app will appear on development mode. For running on Linux, you need to install libgconf:
-
-```shell
-sudo apt-get install libgconf-2-4
-```
+This will start an Angular client server on localhost:4200.
 
 ### Firebase configuration
 
@@ -35,20 +31,6 @@ Go to Database > Rules, and enable anonymous access by copying the following on 
     ".write": true
   }
 }
-```
-
-### Socket server
-
-Download a [Socket Server Tester](https://sourceforge.net/projects/sockettest/), and listen to 127.0.0.1:9838, and do the following:
-
-1. Everytime you open the projects list page, you need to send this message:
-```
-26#{"_type": "viewer_ready"}
-```
-
-2. Everytime you open a project, you need to send:
-```
-29#{"_type": "framework_ready"}
 ```
 
 ### Poly API configuration
@@ -73,17 +55,10 @@ After following the steps from [Getting started](#installing--getting-started), 
 npm install -g @angular/cli
 ```
 
-2. Install Electron packager
-
-```shell
-npm install electron-packager -g
-```
-
 ## TO-DOs
 
 - Add i18n
 - Open/Close Viewer
-- Choose between real-time and manual mode
 
 ## Licensing
 
