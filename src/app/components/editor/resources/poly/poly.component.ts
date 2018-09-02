@@ -18,6 +18,7 @@ export class PolyComponent implements OnInit {
 
   @Input() project: Project;
   @Input() resources: any;
+  @Input() previewKey: string;
 
   polyResources: Array<PolyGetResponse> = [];
   polyResourcesIds: Array<string> = [];
@@ -98,6 +99,7 @@ export class PolyComponent implements OnInit {
       };
 
       this.db.list(`resources/${this.project.id}/`).set(id, newPoly);
+      this.db.list(`/preview/${this.previewKey}/resources/`).set(id, false);
       this.polyResources.push(selectedPoly);
       this.polyResourcesIds.push(id);
       this.resources[content] = newPoly;

@@ -4,20 +4,29 @@
     <div *appLoading="loadingProject">
       <h1 class="page-header">
           {{ project.title }}
-          <button type="button" class="btn btn-outline-primary btn-md" (click)="openPreviewKey(previewKeyModal)">
-            <i class="fas fa-play"></i>
-            PREVIEW THIS APP
-          </button>
+          
       </h1>
       <p>{{ project.description }}</p>
     </div>
   </div>
   <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
     <div *appLoading="loadingProject">
+      <div class="row">
+        <div class="col-12 mb-2">
+          <button type="button" class="btn btn-outline-primary btn-md mr-2" (click)="openPreviewKey(loadingProject)">
+            <i class="fas fa-play"></i>
+            PREVIEW THIS APP
+          </button>
+          <button type="button" class="btn btn-outline-success btn-md">
+            <i class="fas fa-rocket"></i>
+            PUBLISH
+          </button>
+        </div>
+      </div>
       <!-- Resources -->
-      <app-predefined-fiducial-marker *ngIf="frameworkSupport.resources.pfmarker" [project]="project" [resources]="resources"></app-predefined-fiducial-marker>
-      <app-predefined-natural-marker *ngIf="frameworkSupport.resources.pnmarker" [project]="project" [resources]="resources"></app-predefined-natural-marker>
-      <app-poly *ngIf="frameworkSupport.resources.poly" [project]="project" [resources]="resources"></app-poly>
+      <app-predefined-fiducial-marker *ngIf="frameworkSupport.resources.pfmarker" [project]="project" [resources]="resources" [previewKey]="previewKey"></app-predefined-fiducial-marker>
+      <app-predefined-natural-marker *ngIf="frameworkSupport.resources.pnmarker" [project]="project" [resources]="resources" [previewKey]="previewKey"></app-predefined-natural-marker>
+      <app-poly *ngIf="frameworkSupport.resources.poly" [project]="project" [resources]="resources" [previewKey]="previewKey"></app-poly>
     </div>
   </div>
   <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
@@ -28,21 +37,28 @@
 </div>
 
 <ng-template #previewKeyModal let-c="close" let-d="dismiss">
-
-    <div class="modal-header">
-      <h4 class="modal-title">Preview app</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+  <div class="modal-header">
+    <h4 class="modal-title">Preview app</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Open SimpleAR app for Android and scan the following QR code</p>
+    <div class="text-center">
+      <img src="{{ 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + previewKey }}" class="img-fluid">
     </div>
-    <div class="modal-body">
-      <p>Open SimpleAR app for Android and scan the following QR code</p>
-      <div class="text-center">
-        <img src="{{ 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + previewKey }}" class="img-fluid">
-      </div>
-    </div>
-  
-  </ng-template>
+  </div>
+</ng-template>
 
+<ng-template #loadingResourcesModal>
 
+  <div class="modal-header">
+    <h4 class="modal-title">Loading resources</h4>
+  </div>
+  <div class="modal-body">
+    <p>Please wait ...</p>
+  </div>
+
+</ng-template>
   

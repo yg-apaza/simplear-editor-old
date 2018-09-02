@@ -16,6 +16,7 @@ export class PredefinedFiducialMarkerComponent implements OnInit {
 
   @Input() project: Project;
   @Input() resources: any;
+  @Input() previewKey: string;
 
   // TODO: Set type to predefined-fiducial-marker.ts
   predefinedFiducialMarkerResources: Array<string> = [];
@@ -64,6 +65,7 @@ export class PredefinedFiducialMarkerComponent implements OnInit {
       };
       
       this.db.list(`resources/${this.project.id}/`).set(id, newPredefinedFiducialMarker);
+      this.db.list(`/preview/${this.previewKey}/resources/`).set(id, false);
       this.predefinedFiducialMarkerResources.push(this.availablePredefinedFiducialMarkers[this.selectedPredefinedFiducialMarker].path);
       this.predefinedFiducialMarkerResourcesIds.push(id);
       this.resources[content] = newPredefinedFiducialMarker;

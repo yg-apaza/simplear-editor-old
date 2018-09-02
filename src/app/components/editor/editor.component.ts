@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Project } from '../../interfaces/project';
@@ -10,7 +10,7 @@ import ArtoolkitSupport from './frameworks/artoolkit-support';
 import VuforiaSupport from './frameworks/vuforia-support';
 import { Resource } from '../../interfaces/resource';
 import { DataSnapshot } from 'angularfire2/database/interfaces';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 declare var Blockly: any;
 
@@ -34,6 +34,10 @@ export class EditorComponent implements OnInit {
       <block type="start" deletable="false" movable="false"></block>
     </xml>`;
 
+  @ViewChild('loadingResourcesModal')
+  private loadingResourcesModal;
+  loadingResourceModalReference: NgbModalRef;
+
   constructor(
     private route: ActivatedRoute,
     private modalService: NgbModal,
@@ -41,6 +45,8 @@ export class EditorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.onunload = window.onbeforeunload = () => this.ngOnDestroy();
+
     this.route.params.subscribe(params => {
 
       //  TODO: Show error for project not found
@@ -66,9 +72,54 @@ export class EditorComponent implements OnInit {
         else
           this.setWorkspace(this.defaultWorkspace);
 
-        this.previewKey = this.db.createPushId();
-        this.db.list('preview').set(this.previewKey, this.project.id);
+        let resourcesWatcher = {};
+        for(let r in this.resources) {
+          resourcesWatcher[r] = false;
+        }
         
+        console.log(resourcesWatcher);
+
+        this.previewKey = this.db.createPushId();
+        this.db.list('preview').set(this.previewKey, {
+          id: this.previewKey,
+          projectId: this.project.id,
+          locked: false,
+          resources: resourcesWatcher
+        });
+
+        let modalOpened = false;
+        
+        // TODO: Stop listening this after destroying lifecycle Angular
+        this.db.object(`/preview/${this.previewKey}`).valueChanges().subscribe( (data: any) => {
+          if(data.locked) {
+            let resourcesReady: boolean = true;
+            for(let resourceName in data.resources) {
+              if(!data.resources[resourceName]) {
+                let options: NgbModalOptions = {};
+                options.backdrop = 'static';
+                options.keyboard = false;
+                if(!modalOpened) {
+                  this.loadingResourceModalReference = this.modalService.open(this.loadingResourcesModal, options);
+                  modalOpened = true;
+                }
+                resourcesReady = false;
+                break;
+              }
+            }
+
+            if(resourcesReady) {
+              this.loadingResourceModalReference.close();
+              modalOpened = false;
+            }
+          }
+          else{
+            // TODO: Show loadingResourceModal while looping here, to avoid the user to add more resources
+            for(let resourceName in data.resources) {
+              this.db.list(`/preview/${this.previewKey}/resources`).set(resourceName, false);
+            }
+          }
+        });        
+
         this.loadingProject = false;
       });
     });
@@ -174,7 +225,6 @@ export class EditorComponent implements OnInit {
   openPreviewKey(content) {
     this.previewKeyModalReference = this.modalService.open(content);
   }
-
 
   ngOnDestroy()	{
     // TODO: Remove when reloading

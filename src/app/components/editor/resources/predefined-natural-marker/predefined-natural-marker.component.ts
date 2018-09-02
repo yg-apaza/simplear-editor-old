@@ -16,6 +16,7 @@ export class PredefinedNaturalMarkerComponent implements OnInit {
 
   @Input() project: Project;
   @Input() resources: any;
+  @Input() previewKey: string;
 
   // TODO: Set type to predefined-fiducial-marker.ts
   predefinedNaturalMarkerResources: Array<string> = [];
@@ -64,6 +65,7 @@ export class PredefinedNaturalMarkerComponent implements OnInit {
       };
       
       this.db.list(`resources/${this.project.id}/`).set(id, newPredefinedNaturalMarker);
+      this.db.list(`/preview/${this.previewKey}/resources/`).set(id, false);
       this.predefinedNaturalMarkerResources.push(this.availablePredefinedNaturalMarkers[this.selectedPredefinedNaturalMarker].path);
       this.predefinedNaturalMarkerResourcesIds.push(id);
       this.resources[content] = newPredefinedNaturalMarker;
