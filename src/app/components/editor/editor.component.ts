@@ -222,7 +222,7 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  openPreviewKey(content) {
+  openPreviewKeyModal(content) {
     this.previewKeyModalReference = this.modalService.open(content);
   }
 
