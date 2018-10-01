@@ -76,11 +76,9 @@ export class EditorComponent implements OnInit {
         for(let r in this.resources) {
           resourcesWatcher[r] = false;
         }
-        
-        console.log(resourcesWatcher);
 
         this.previewKey = this.db.createPushId();
-        this.db.list('preview').set(this.previewKey, {
+        this.db.list('previews').set(this.previewKey, {
           id: this.previewKey,
           projectId: this.project.id,
           locked: false,
@@ -90,7 +88,7 @@ export class EditorComponent implements OnInit {
         let modalOpened = false;
         
         // TODO: Stop listening this after destroying lifecycle Angular
-        this.db.object(`/preview/${this.previewKey}`).valueChanges().subscribe( (data: any) => {
+        this.db.object(`/previews/${this.previewKey}`).valueChanges().subscribe( (data: any) => {
           if(data.locked) {
             let resourcesReady: boolean = true;
             for(let resourceName in data.resources) {
@@ -110,12 +108,17 @@ export class EditorComponent implements OnInit {
             if(resourcesReady) {
               this.loadingResourceModalReference.close();
               modalOpened = false;
+
+              // TODO: Hacky code for sending update event on Firebase
+              this.db.object(`/interactions/${this.project.id}`).query.once('value').then(dataSnapshot => {
+                this.db.list('interactions').set(this.project.id, dataSnapshot.val() + " ");
+              });
             }
           }
-          else{
+          else {
             // TODO: Show loadingResourceModal while looping here, to avoid the user to add more resources
             for(let resourceName in data.resources) {
-              this.db.list(`/preview/${this.previewKey}/resources`).set(resourceName, false);
+              this.db.list(`/previews/${this.previewKey}/resources`).set(resourceName, false);
             }
           }
         });        
@@ -229,7 +232,7 @@ export class EditorComponent implements OnInit {
 
   ngOnDestroy()	{
     // TODO: Remove when reloading
-    const previewKeyRef = this.db.object(`/preview/${this.previewKey}`);
+    const previewKeyRef = this.db.object(`/previews/${this.previewKey}`);
     previewKeyRef.remove();
   }
 
