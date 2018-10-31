@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Project } from '../../../../interfaces/project';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire/database';
 import PredefinedNaturalMarker from './predefined-natural-marker';
 import { Resource } from '../../../../interfaces/resource';
 

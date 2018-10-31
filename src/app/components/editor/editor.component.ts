@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire//database';
 import { Project } from '../../interfaces/project';
 import { BlocksDefinition } from './blocks-definition';
 import { Support } from '../../interfaces/support';
@@ -9,7 +9,7 @@ import { Support } from '../../interfaces/support';
 import ArtoolkitSupport from './frameworks/artoolkit-support';
 import VuforiaSupport from './frameworks/vuforia-support';
 import { Resource } from '../../interfaces/resource';
-import { DataSnapshot } from 'angularfire2/database/interfaces';
+import { DataSnapshot } from '@angular/fire/database/interfaces';
 import { NgbModalRef, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 declare var Blockly: any;

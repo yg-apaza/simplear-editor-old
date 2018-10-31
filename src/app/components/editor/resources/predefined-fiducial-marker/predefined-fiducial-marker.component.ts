@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Project } from '../../../../interfaces/project';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { Resource } from '../../../../interfaces/resource';
 import PredefinedFiducialMarker from './predefined-fiducial-marker';
 

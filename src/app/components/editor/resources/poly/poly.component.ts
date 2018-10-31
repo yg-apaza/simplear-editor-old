@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { PolyService } from '../../../../services/poly.service';
 import { Project } from '../../../../interfaces/project';
 import { Resource } from '../../../../interfaces/resource';
@@ -103,11 +103,7 @@ export class PolyComponent implements OnInit {
       this.polyResources.push(selectedPoly);
       this.polyResourcesIds.push(id);
       this.resources[content] = newPoly;
-      console.log(`Resource added: ${id}`);
     }
-
     this.addPolyModalReference.close();
-}
-
-
+  }
 }
