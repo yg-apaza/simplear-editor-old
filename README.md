@@ -55,11 +55,6 @@ git update-index --assume-unchanged src/environments/environment.ts
 git update-index --assume-unchanged src/environments/environment.prod.ts
 ```
 
-## TO-DOs
-
-- Add i18n
-- Open/Close Viewer
-
 ## Licensing
 
 The code in this project is licensed under [MIT License](LICENSE.md).

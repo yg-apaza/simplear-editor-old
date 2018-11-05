@@ -199,7 +199,6 @@ export class EditorComponent implements OnInit {
     this.db.list('workspaces').set(this.project.id, xml_text);
 
     let code: string = Blockly.JSON.workspaceToCode(Blockly.mainWorkspace);
-    console.log(code);
     if(this.checkGeneratedCode(code)) {
       this.db.list('interactions').set(this.project.id, code);
       /* this.messages.push({
