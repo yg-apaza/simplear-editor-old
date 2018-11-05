@@ -47,6 +47,23 @@ export class BlocksDefinition {
             }
         }
 
+        Blockly.Blocks['resource_is_selected'] = {
+            init: function() {
+                this.appendDummyInput()
+                    .appendField("On")
+                    .appendField(new Blockly.FieldTextInput("RESOURCE"), "RESOURCE_NAME")
+                    .appendField("selected");
+                this.appendStatementInput("ACTION_INPUT")
+                    .setCheck("ACTION");
+                this.setInputsInline(false);
+                this.setPreviousStatement(true, "EVENT");
+                this.setNextStatement(true, "EVENT");
+                this.setColour(120);
+                this.setTooltip("Event when marker is selected");
+                this.setHelpUrl("");
+            }
+        };
+
         Blockly.Blocks['augment_resource'] = {
             init: function() {
                 this.appendDummyInput()
@@ -60,16 +77,37 @@ export class BlocksDefinition {
             }
         }
 
+        Blockly.Blocks['rotate_resource'] = {
+            init: function() {
+                this.appendDummyInput()
+                    .appendField("rotate")
+                    .appendField(new Blockly.FieldTextInput("RESOURCE"), "RESOURCE_NAME");
+                this.setInputsInline(true);
+                this.setPreviousStatement(true, "ACTION");
+                this.setColour(210);
+                this.setTooltip("Rotate a resource");
+                this.setHelpUrl("");
+            }
+        };
+
         this.eventBlocks = {
             marker_is_detected:
                 `<block type="marker_is_detected">
                     <field name="MARKER_NAME">MARKER</field>
+                </block>`,
+            resource_is_selected:
+                `<block type="resource_is_selected">
+                    <field name="RESOURCE_NAME">RESOURCE</field>
                 </block>`
         };
 
         this.actionBlocks = {
             augment_resource:
                 `<block type="augment_resource">
+                    <field name="RESOURCE_NAME">RESOURCE</field>
+                </block>`,
+            rotate_resource:
+                `<block type="rotate_resource">
                     <field name="RESOURCE_NAME">RESOURCE</field>
                 </block>`
         }

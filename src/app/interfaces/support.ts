@@ -5,11 +5,13 @@ type Resource = {
 }
 
 type Event = {
-    marker_is_detected: boolean
+    marker_is_detected: boolean,
+    resource_is_selected: boolean
 }
 
 type Action = {
-    augment_resource: boolean
+    augment_resource: boolean,
+    rotate_resource: boolean
 }
 
 export interface Support {

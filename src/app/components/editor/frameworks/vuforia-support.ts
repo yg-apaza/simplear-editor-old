@@ -10,10 +10,12 @@ VuforiaSupport = {
     pnmarker: true
   },
   events: {
-    marker_is_detected: true
+    marker_is_detected: true,
+    resource_is_selected: true
   },
   actions: {
-    augment_resource: true
+    augment_resource: true,
+    rotate_resource: true
   }
 }
 
