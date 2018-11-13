@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFireDatabase } from '@angular/fire//database';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { Project } from '../../interfaces/project';
 import { BlocksDefinition } from './blocks-definition';
 import { Support } from '../../interfaces/support';

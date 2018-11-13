@@ -65,7 +65,7 @@ export class PredefinedNaturalMarkerComponent implements OnInit {
       };
       
       this.db.list(`resources/${this.project.id}/`).set(id, newPredefinedNaturalMarker);
-      this.db.list(`/preview/${this.previewKey}/resources/`).set(id, false);
+      this.db.list(`/previews/${this.previewKey}/resources/`).set(id, false);
       this.predefinedNaturalMarkerResources.push(this.availablePredefinedNaturalMarkers[this.selectedPredefinedNaturalMarker].path);
       this.predefinedNaturalMarkerResourcesIds.push(id);
       this.resources[content] = newPredefinedNaturalMarker;

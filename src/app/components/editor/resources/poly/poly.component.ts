@@ -99,7 +99,7 @@ export class PolyComponent implements OnInit {
       };
 
       this.db.list(`resources/${this.project.id}/`).set(id, newPoly);
-      this.db.list(`/preview/${this.previewKey}/resources/`).set(id, false);
+      this.db.list(`/previews/${this.previewKey}/resources/`).set(id, false);
       this.polyResources.push(selectedPoly);
       this.polyResourcesIds.push(id);
       this.resources[content] = newPoly;
