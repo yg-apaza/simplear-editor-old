@@ -12,6 +12,7 @@ cache:
     - node_modules
  
 script:
+  - npm cache clean --force
   - npm run build.prod
  
 deploy:
