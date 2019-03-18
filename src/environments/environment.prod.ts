@@ -1,14 +1,14 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: 'AIzaSyBZ4HzmKZOLP5XOS1-msqnkU4DBdWpgL8A',
-    authDomain: 'simplear-e9683.firebaseapp.com',
-    databaseURL: 'https://simplear-e9683.firebaseio.com',
-    projectId: 'simplear-e9683',
-    storageBucket: 'simplear-e9683.appspot.com',
-    messagingSenderId: '678146306977'
+    apiKey: 'AIzaSyBwDAnmthrszv4E8mVf2lFPcyWiASyvbwY',
+    authDomain: 'simplear.firebaseapp.com',
+    databaseURL: 'https://simplear.firebaseio.com',
+    projectId: 'simplear',
+    storageBucket: 'simplear.appspot.com',
+    messagingSenderId: '6699477875'
   },
   poly: {
-    apiKey: 'AIzaSyBZ4HzmKZOLP5XOS1-msqnkU4DBdWpgL8A'
+    apiKey: 'AIzaSyBwDAnmthrszv4E8mVf2lFPcyWiASyvbwY'
   }
 };
