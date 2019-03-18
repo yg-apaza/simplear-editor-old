@@ -6,11 +6,7 @@ sudo: false
 branches:
   only:
     - master
- 
-cache:
-  directories:
-    - node_modules
- 
+
 script:
   - npm cache clean --force
   - npm run build.prod
