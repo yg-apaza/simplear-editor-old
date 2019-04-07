@@ -3,19 +3,27 @@
     <img src="assets/brand-icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
     SimpleAR Editor
   </a>
-  <div ngbDropdown class="d-inline-block">
-    <button class="btn btn-primary" id="userActions" ngbDropdownToggle>John Doe</button>
-    <div ngbDropdownMenu aria-labelledby="userActions">
-      <button class="dropdown-item">
-        <i class="fas fa-user"></i> Profile
-      </button>
-      <button class="dropdown-item">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
+  <div *ngIf="afAuth.user | async as user; else showLogin">
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-primary" id="userActions" ngbDropdownToggle>{{ user.displayName }}</button>
+      <div ngbDropdownMenu aria-labelledby="userActions">
+        <!--button class="dropdown-item">
+          <i class="fas fa-user"></i> Profile
+        </button-->
+        <button class="dropdown-item" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
     </div>
   </div>
+  <ng-template #showLogin>
+    <button class="btn btn-danger" (click)="login()">
+      <i class="fab fa-google"></i> Sign in with Google
+    </button>
+  </ng-template>
 </nav>
-
 <div class="pt-5 container">
-  <router-outlet></router-outlet>
+  <div *ngIf="afAuth.user | async as user">
+    <router-outlet></router-outlet>
+  </div>
 </div>
