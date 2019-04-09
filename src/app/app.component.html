@@ -1,7 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary justify-content-between">
   <a routerLink="/" routerLinkActive="active" class="navbar-brand">
-    <img src="assets/brand-icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    SimpleAR Editor
+    <img src="assets/brand.png" height="35" class="d-inline-block align-top" alt="">
   </a>
   <div *ngIf="afAuth.user | async as user; else showLogin">
     <div ngbDropdown class="d-inline-block">
