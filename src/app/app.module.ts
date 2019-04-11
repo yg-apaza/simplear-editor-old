@@ -18,15 +18,14 @@ import { EditorComponent } from './components/editor/editor.component';
 import { PolyComponent } from './components/editor/resources/poly/poly.component';
 import { PredefinedFiducialMarkerComponent } from './components/editor/resources/predefined-fiducial-marker/predefined-fiducial-marker.component';
 import { PredefinedNaturalMarkerComponent } from './components/editor/resources/predefined-natural-marker/predefined-natural-marker.component';
+import { AuthGuard } from './services/auth.guard';
+import { LoginComponent } from './components/login/login.component';
+import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
 
 const appRoutes: Routes = [
   {
-    path: 'projects',
-    component: ProjectsComponent
-  },
-  {
-    path: 'edit/:id',
-    component: EditorComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: '',
@@ -34,8 +33,24 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: '**',
-    component: PageNotFoundComponent
+    path: '',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: 'projects',
+        component: ProjectsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'edit/:id',
+        component: EditorComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: '**',
+        component: PageNotFoundComponent
+      }
+    ]
   }
 ];
 
@@ -49,7 +64,9 @@ const appRoutes: Routes = [
     EditorComponent,
     PolyComponent,
     PredefinedFiducialMarkerComponent,
-    PredefinedNaturalMarkerComponent
+    PredefinedNaturalMarkerComponent,
+    LoginComponent,
+    AppLayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +84,7 @@ const appRoutes: Routes = [
   entryComponents: [
     LoadingComponent
   ],
-  providers: [],
+  providers: [ AuthGuard ],
   bootstrap: [AppComponent]
 })
 
