@@ -21,6 +21,7 @@ import { PredefinedNaturalMarkerComponent } from './components/editor/resources/
 import { AuthGuard } from './services/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 const appRoutes: Routes = [
   {
@@ -66,7 +67,8 @@ const appRoutes: Routes = [
     PredefinedFiducialMarkerComponent,
     PredefinedNaturalMarkerComponent,
     LoginComponent,
-    AppLayoutComponent
+    AppLayoutComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +87,7 @@ const appRoutes: Routes = [
     LoadingComponent
   ],
   providers: [ AuthGuard ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 
 export class AppModule { }
