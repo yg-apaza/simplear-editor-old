@@ -1,13 +1,26 @@
 Blockly.JSON = new Blockly.Generator('JSON');
 
 Blockly.JSON.start = function(block) {
-  var statements_events = Blockly.JSON.statementToCode(block, 'EVENTS');
+  var statements_events = Blockly.JSON.statementToCode(block, 'any');
   var code = `{ "interactions": [ ${statements_events} ]}`;
   return code;
 };
 
-var eventJSONTemplate = '{ "_event": %d , "event_inputs": [%s] , %s }';
+var interactionTemplate = '{"_event": %d, "event_inputs": [%s], "_action": %d, "action_inputs": [%s]}';
 
+Blockly.JSON.marker_augment_resource = function(block) {
+  var text_marker_name = block.getFieldValue('MARKER_NAME');
+  var text_resource_name = block.getFieldValue('RESOURCE_NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = sprintf(interactionTemplate, 1, `"${text_marker_name}"`, 1, `"${text_resource_name}"`);
+  var nextStatement = "";
+  // TODO: Ignore events without action or give a default value.
+  if(block.getNextBlock()){
+    nextStatement = ", " + Blockly.JSON[block.getNextBlock().type](block.getNextBlock());
+  }
+  return code + nextStatement;
+};
+/*
 Blockly.JSON.marker_is_detected = function(block) {
   var text_marker_name = block.getFieldValue('MARKER_NAME');
   var statements_action_input = Blockly.JSON.statementToCode(block, 'ACTION_INPUT');
@@ -46,3 +59,4 @@ Blockly.JSON.rotate_resource = function(block) {
   var code = sprintf(actionJSONTemplate, 2, `"${text_resource_name}"`);
   return code;
 };
+*/

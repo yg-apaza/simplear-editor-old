@@ -4,11 +4,13 @@ import { sprintf } from "sprintf-js";
 export class BlocksDefinition {
 
     Blockly: any;
+    objectBlocks: any;
     eventBlocks: any;
     actionBlocks: any;
 
     toolbox: string =
     `<xml id="toolbox" style="display: none">
+      <category name="Objects"> %s </category>
       <category name="Events"> %s </category>
       <category name="Actions"> %s </category>
     </xml>`;
@@ -19,16 +21,31 @@ export class BlocksDefinition {
         Blockly.Blocks['start'] = {
             init: function() {
                 this.appendDummyInput()
-                    .appendField(new Blockly.FieldImage("http://icons.iconarchive.com/icons/icons8/ios7/128/Sports-Finish-Flag-icon.png", 20, 20, "*"))
+                    .appendField(new Blockly.FieldImage("http://icons.iconarchive.com/icons/icons8/ios7/128/Sports-Finish-Flag-icon.png", 15, 15, "*"))
                     .appendField("START");
-                this.appendStatementInput("EVENTS")
-                    .setCheck("EVENT");
+                this.appendStatementInput("any")
+                    .setCheck(null);
                 this.setInputsInline(false);
                 this.setColour(160);
                 this.setTooltip("Main block");
                 this.setHelpUrl("");
             }
-        }
+        };
+
+        Blockly.Blocks['marker_augment_resource'] = {
+            init: function() {
+                this.appendDummyInput()
+                    .appendField("When ")
+                    .appendField(new Blockly.FieldTextInput("MARKER"), "MARKER_NAME")
+                    .appendField("detected, augment")
+                    .appendField(new Blockly.FieldTextInput("RESOURCE"), "RESOURCE_NAME");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(230);
+                this.setTooltip("");
+                this.setHelpUrl("");
+            }
+        };
 
         Blockly.Blocks['marker_is_detected'] = {
             init: function() {
@@ -90,6 +107,14 @@ export class BlocksDefinition {
             }
         };
 
+        this.objectBlocks = {
+            marker_augment_resource:
+                `<block type="marker_augment_resource">
+                    <field name="MARKER_NAME">MARKER</field>
+                    <field name="RESOURCE_NAME">RESOURCE</field>
+                </block>`,
+        }
+
         this.eventBlocks = {
             marker_is_detected:
                 `<block type="marker_is_detected">
@@ -114,9 +139,15 @@ export class BlocksDefinition {
     }
 
     createToolbox(frameworkSupport: Support) {
+        let objects_toolbox = '';
         let events_toolbox: string = '';
         let actions_toolbox: string = '';
         
+        for (let name in frameworkSupport.objects) {
+            if(frameworkSupport.objects[name])
+                objects_toolbox += this.objectBlocks[name];
+        }
+
         for (let name in frameworkSupport.events) {
             if(frameworkSupport.events[name])
                 events_toolbox += this.eventBlocks[name];
@@ -127,7 +158,7 @@ export class BlocksDefinition {
                 actions_toolbox += this.actionBlocks[name];
         }
 
-        return sprintf(this.toolbox, events_toolbox, actions_toolbox);
+        return sprintf(this.toolbox, objects_toolbox, events_toolbox, actions_toolbox);
     }
 
 }
